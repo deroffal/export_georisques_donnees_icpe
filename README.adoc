@@ -1,0 +1,25 @@
+= Export des données ICPE du site Géorisques
+
+== Présentation
+
+Liste des données ICPE : http://www.georisques.gouv.fr/dossiers/installations
+
+Depuis la rubrique `Accès aux données`, on peut utiliser une fonction d'export de la base de données.
+Cependant, l'export ne liste pas l'ensemble des textes disponibles pour un établissement (exemple pour http://www.georisques.gouv.fr/dossiers/installations/donnees/details/0063.03511?url=etablissement=garnier#/[cet établissement], dans la rubrique `Textes publics disponibles`).
+
+== API disponibles
+
+* Lister les établissements : http://www.georisques.gouv.fr/webappReport/ws/installations/sitesdetails/detailsites_2020-05-14.csv?etablissement=&region=52&departement=&commune=&activite=&nomenclature=&regime=&statut=&prioNational=&ied=&declaration=&isExport=true&start=0&size=0
+Ici le filtre `region=52` pour les Pays de la Loire.
+On obtient un export csv dont la première colonne est le `Numéro d'inspection` (_ex :_ 0572.01395).
+
+* Export des données de l'établissement : http://www.georisques.gouv.fr/webappReport/ws/installations/etablissement/0572-01395
+On remplace le `.` par un `-` du numéro d'inspection.
+
+* Export de la liste des textes pour l'établissement : http://www.georisques.gouv.fr/webappReport/ws/installations/etablissement/0063-03511/texte
+On remplace le `.` par un `-` du numéro d'inspection.
+
+== Exigences
+
+ * Simple à utiliser
+ * Utilisable sur Windows
