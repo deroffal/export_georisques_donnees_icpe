@@ -5,6 +5,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import java.io.FileWriter
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
@@ -18,10 +19,13 @@ val mapper = jacksonObjectMapper().registerModule(JavaTimeModule())
 
 fun main(args: Array<String>) {
 
+    println("${LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME)} - Début")
+
     val now = LocalDate.now().format(DateTimeFormatter.ISO_DATE)
 
     val etablissements =
-        httpBuilder.getAsString("$baseUrl/sitesdetails/detailsites_$now.csv?etablissement=&$paramPaysDeLaLoire&isExport=true")
+        httpBuilder.getAsString("$baseUrl/sitesdetails/detailsites_$now.csv?etablissement=&isExport=true")
+//        httpBuilder.getAsString("$baseUrl/sitesdetails/detailsites_$now.csv?etablissement=&$paramNantes&isExport=true")
             .split("\r\n").filterNot { it.isEmpty() }.drop(1)
             .map { it.split(";") }
             .map {
@@ -39,7 +43,7 @@ fun main(args: Array<String>) {
                 )
             }
 
-    println("${etablissements.size} établissements trouvés...")
+    println("${LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME)} - ${etablissements.size} établissements trouvés...")
 
     val lignesCSV = etablissements.map {
         val textes = recupererTextes(it)
@@ -56,7 +60,8 @@ fun main(args: Array<String>) {
             it.etatActivite,
             it.prioriteNationale,
             it.iedMtd,
-            etablissement.activiteInst
+            etablissement.activiteInst,
+            etablissement.derInspection
         ) + textes.map {
             listOf(
                 it.dateDoc?.format(DateTimeFormatter.ISO_DATE),
@@ -70,7 +75,7 @@ fun main(args: Array<String>) {
 
 
     val entete =
-        "Numéro d'inspection;Nom établissement;Code postal;Commune;Département;Régime en vigueur;Statut SEVESO;Etat d’activité;Priorité nationale;IED-MTD;Activité" + (1..24).map { ";Date document;Type document;Description document;URL document" }
+        "Numéro d'inspection;Nom établissement;Code postal;Commune;Département;Régime en vigueur;Statut SEVESO;Etat d’activité;Priorité nationale;IED-MTD;Activité;Dernière inspection" + (1..24).map { ";Date document;Type document;Description document;URL document" }
             .joinToString(postfix = "\n")
     fileWriter.write(entete)
     lignesCSV
@@ -78,6 +83,8 @@ fun main(args: Array<String>) {
         .forEach {
             fileWriter.write(it)
         }
+
+    println("${LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME)} - Fin")
 }
 
 private fun recupererTextes(etablissementCsv: EtablissementCsv): List<Texte> {
