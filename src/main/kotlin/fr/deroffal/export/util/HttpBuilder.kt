@@ -1,4 +1,4 @@
-package fr.deroffal.export
+package fr.deroffal.export.util
 
 import java.net.URI
 import java.net.http.HttpClient

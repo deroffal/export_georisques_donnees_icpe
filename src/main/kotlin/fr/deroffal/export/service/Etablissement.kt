@@ -1,24 +1,14 @@
-package fr.deroffal.export
+package fr.deroffal.export.service
 
-import java.time.LocalDate
+import com.fasterxml.jackson.module.kotlin.readValue
+import fr.deroffal.export.baseUrl
+import fr.deroffal.export.httpBuilder
+import fr.deroffal.export.mapper
 
-data class Texte(val dateDoc: LocalDate?, val typeDoc: String?, val descriptionDoc: String?, val urlDoc: String?) {
-    fun isNotEmpty() = listOfNotNull(dateDoc, typeDoc, descriptionDoc, urlDoc).isNotEmpty()
-}
 
-data class EtablissementCsv(
-    val numeroInspection: String,
-    val nom: String,
-    val codePostal: String,
-    val commune: String,
-    val departement: String,
-    val regimeEnVigueur: String,
-    val statutSeveso: String,
-    val etatActivite: String,
-    val prioriteNationale: String,
-    val iedMtd: String
-) {
-    fun getNumeroEtablissement() = numeroInspection.replace('.', '-')
+fun recupererEtablissement(numeroEtablissement: String): Etablissement {
+    val etablissementStr = httpBuilder.getAsString("$baseUrl/etablissement/$numeroEtablissement")
+    return mapper.readValue(etablissementStr)
 }
 
 data class Etablissement(
