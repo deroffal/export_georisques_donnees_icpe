@@ -1,10 +1,4 @@
-= Export des données ICPE du site Géorisques
+= Extraction données ICPE de Géorisques
 
-== Présentation
-
-Liste des données ICPE : http://www.georisques.gouv.fr/dossiers/installations
-
-Depuis la rubrique `Accès aux données`, on peut utiliser une fonction d'export de la base de données.
-Cependant, l'export ne liste pas l'ensemble des textes disponibles pour un établissement (exemple pour http://www.georisques.gouv.fr/dossiers/installations/donnees/details/0063.03511?url=etablissement=garnier#/[cet établissement], dans la rubrique `Textes publics disponibles`).
-
-include::docs/api.adoc[]
+== Génération du projet
+https://start.spring.io/#!type=gradle-project&language=kotlin&platformVersion=2.3.2.RELEASE&packaging=jar&jvmVersion=11&groupId=fr.deroffal&artifactId=extract_georisques_icpe&name=extract_georisques_icpe&description=Extraction%20de%20donn%C3%A9es%20ICPE%20depuis%20G%C3%A9orisques&packageName=fr.deroffal.extract_georisques_icpe&dependencies=lombok,devtools,configuration-processor,data-jpa,postgresql,batch

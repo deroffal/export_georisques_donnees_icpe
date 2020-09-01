@@ -1,0 +1,9 @@
+version: "3.3"
+services:
+  db:
+    image: "postgres:12.4"
+    container_name: "exportgeorisquesdb"
+    environment:
+      POSTGRES_PASSWORD: pwd
+    ports:
+      - "54320:5432"

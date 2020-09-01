@@ -1,9 +1,6 @@
 package fr.deroffal.export.service
 
 import com.fasterxml.jackson.module.kotlin.readValue
-import fr.deroffal.export.baseUrl
-import fr.deroffal.export.httpBuilder
-import fr.deroffal.export.mapper
 import fr.deroffal.export.service.EtatActivite.EN_CONSTRUCTION
 import fr.deroffal.export.service.EtatActivite.EN_FONCTIONNEMENT
 import java.time.LocalDate
@@ -25,12 +22,12 @@ data class Situation(
     fun aAfficher() = etatActivite in listOf(EN_CONSTRUCTION, EN_FONCTIONNEMENT).map { it.code }
 }
 
-fun recupererSituations(numeroEtablissement: String): List<Situation> {
-    val etablissementStr = httpBuilder.getAsString("$baseUrl/etablissement/$numeroEtablissement/situation")
-    return mapper.readValue<Collection<Situation>>(etablissementStr)
-        .filter { it.aAfficher() }
-        .sortedWith(SituationComparator())
-}
+//fun recupererSituations(numeroEtablissement: String): List<Situation> {
+//    val etablissementStr = httpBuilder.getAsString("$baseUrl/etablissement/$numeroEtablissement/situation")
+//    return mapper.readValue<Collection<Situation>>(etablissementStr)
+//        .filter { it.aAfficher() }
+//        .sortedWith(SituationComparator())
+//}
 
 
 //https://www.georisques.gouv.fr/sites/all/modules/custom/dossier_installations/js/detailsInstallations.js?qelarj
