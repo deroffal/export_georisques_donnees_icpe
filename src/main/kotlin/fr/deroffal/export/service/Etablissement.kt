@@ -1,15 +1,12 @@
 package fr.deroffal.export.service
 
 import com.fasterxml.jackson.module.kotlin.readValue
-import fr.deroffal.export.baseUrl
-import fr.deroffal.export.httpBuilder
-import fr.deroffal.export.mapper
 
 
-fun recupererEtablissement(numeroEtablissement: String): Etablissement {
-    val etablissementStr = httpBuilder.getAsString("$baseUrl/etablissement/$numeroEtablissement")
-    return mapper.readValue(etablissementStr)
-}
+//fun recupererEtablissement(numeroEtablissement: String): Etablissement {
+//    val etablissementStr = httpBuilder.getAsString("$baseUrl/etablissement/$numeroEtablissement")
+//    return mapper.readValue(etablissementStr)
+//}
 
 data class Etablissement(
     val idInst: String?,
