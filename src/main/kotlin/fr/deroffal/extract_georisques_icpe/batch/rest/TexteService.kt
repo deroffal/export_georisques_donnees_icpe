@@ -11,10 +11,10 @@ class TexteService(
 ) {
 
     //;Date document;Type document;Description document;URL document
-    fun recupererTextes(numeroEtablissement: String): List<Texte> {
+    fun recupererTextes(numeroEtablissement: String): List<TexteDto> {
         val texteStr = httpBuilder.getAsString("$baseUrl/etablissement/${numeroEtablissement}/texte")
         return mapper
-            .readValue<Collection<Texte>>(texteStr)
+            .readValue<Collection<TexteDto>>(texteStr)
             .filter { it.isNotEmpty() }
             .sortedBy { it.dateDoc }.reversed()
     }
