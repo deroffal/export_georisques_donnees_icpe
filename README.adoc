@@ -1,4 +1,28 @@
+:icons: font
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
 = Extraction données ICPE de Géorisques
 
-== Génération du projet
-https://start.spring.io/#!type=gradle-project&language=kotlin&platformVersion=2.3.2.RELEASE&packaging=jar&jvmVersion=11&groupId=fr.deroffal&artifactId=extract_georisques_icpe&name=extract_georisques_icpe&description=Extraction%20de%20donn%C3%A9es%20ICPE%20depuis%20G%C3%A9orisques&packageName=fr.deroffal.extract_georisques_icpe&dependencies=lombok,devtools,configuration-processor,data-jpa,postgresql,batch
+== Présentation
+
+Le site https://www.georisques.gouv.fr/[georisques.gouv.fr] possède une rubrique permettant de recenser les Installation Classée pour la Protection de l'Environnement (*ICPE*) à cette https://www.georisques.gouv.fr/dossiers/installations[rubrique].
+
+Depuis la rubrique `Accès aux données`, on peut utiliser une fonction d'export de la base de données pour obtenir un fichier CSV regroupant certaines informations sur ces installations.
+Cependant, cet export ne liste pas l'ensemble des textes disponibles pour un établissement (exemple pour http://www.georisques.gouv.fr/dossiers/installations/donnees/details/0063.03511?url=etablissement=garnier#/[cet établissement], dans la rubrique `Textes publics disponibles`).
+D'autres informations sont accessibles en naviguant sur le site, mais ne sont agrégées nulle part dans un fichier global.
+
+Il s'agit de créer un batch permettant de récuperer ces données à partir de l'API disponible sur le site web, puis de les agrégées de manière à être utilisable par un utilisateur.
+
+== API disponibles
+* https://www.georisques.gouv.fr/webappReport/ws/installations/sitesdetails/detailsites_2020-05-14.csv?etablissement=&region=52&departement=&commune=&activite=&nomenclature=&regime=&statut=&prioNational=&ied=&declaration=&isExport=true&start=0&size=0[Lister les établissements] : permet de récupérer la liste des installations à partir d'un périmètre géographique.
+On récupère un id technique d'installation, qui sera par la suite utilisé pour requêter les services suivants.
+* https://www.georisques.gouv.fr/webappReport/ws/installations/etablissement/0063-03511[Installation] : permet de récupérer les informations d'une installation.
+* http://www.georisques.gouv.fr/webappReport/ws/installations/etablissement/0063-03511/texte[Textes] : permet de récupérer les éventuelles textes publics disponibles pour un établissement.
+* http://www.georisques.gouv.fr/webappReport/ws/installations/etablissement/0063-03511/situation[Situations] : permet de récupérer les différentes sitations administratives d'un établissement.
+
+TIP: L'id obtenu à partir de l'export CSV comporte un `.` qu'il faut convertir en `-` pour les autres services.
