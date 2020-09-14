@@ -35,10 +35,6 @@ dependencies {
     runtimeOnly("org.postgresql:postgresql")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     annotationProcessor("org.projectlombok:lombok")
-    testImplementation("org.springframework.boot:spring-boot-starter-test") {
-        exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
-    }
-    testImplementation("org.springframework.batch:spring-batch-test")
 
     implementation(enforcedPlatform("com.fasterxml.jackson:jackson-bom:2.11.0"))
     compileOnly("com.fasterxml.jackson.core:jackson-databind")
@@ -47,10 +43,17 @@ dependencies {
     compileOnly("com.fasterxml.jackson.datatype:jackson-datatype-jdk8")
     compileOnly("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
 
-	kapt("org.springframework.boot:spring-boot-configuration-processor")
+    kapt("org.springframework.boot:spring-boot-configuration-processor")
 
     implementation("org.mapstruct:mapstruct:1.4.0.CR1")
     kapt("org.mapstruct:mapstruct-processor:1.4.0.CR1")
+
+    implementation("org.liquibase:liquibase-core:4.0.0")
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
+    }
+    testImplementation("org.springframework.batch:spring-batch-test")
 }
 
 tasks.withType<Test> {
