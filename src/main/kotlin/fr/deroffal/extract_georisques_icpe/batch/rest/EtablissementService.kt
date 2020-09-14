@@ -20,7 +20,7 @@ class EtablissementService(
     }
 
     fun recupererEtablissement(numeroEtablissement: String): EtablissementDto {
-        val etablissementStr = httpBuilder.getAsString("$baseUrl/etablissement/$numeroEtablissement")
+        val etablissementStr = httpBuilder.getAsString("/etablissement/$numeroEtablissement")
         return mapper.readValue(etablissementStr)
     }
 }
@@ -37,7 +37,7 @@ class ParametreExport private constructor(
 
     fun buildUri(): String {
         //URI minimale pour avoir un export
-        var baseUri = "$baseUrl/sitesdetails/detailsites_${
+        var baseUri = "/sitesdetails/detailsites_${
             LocalDate.now().format(DateTimeFormatter.ISO_DATE)
         }.csv?etablissement=&isExport=true"
         if (hasParametreGeographique()) {

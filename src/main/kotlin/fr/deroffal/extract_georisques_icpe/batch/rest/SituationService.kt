@@ -11,7 +11,7 @@ class SituationService(
 ) {
 
     fun recupererSituations(numeroEtablissement: String): List<SituationDto> {
-        val etablissementStr = httpBuilder.getAsString("$baseUrl/etablissement/$numeroEtablissement/situation")
+        val etablissementStr = httpBuilder.getAsString("/etablissement/$numeroEtablissement/situation")
         return mapper.readValue<Collection<SituationDto>>(etablissementStr)
             .filter { it.aAfficher() }
             .sortedWith(SituationComparator())

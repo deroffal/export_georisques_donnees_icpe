@@ -12,7 +12,7 @@ class TexteService(
 
     //;Date document;Type document;Description document;URL document
     fun recupererTextes(numeroEtablissement: String): List<TexteDto> {
-        val texteStr = httpBuilder.getAsString("$baseUrl/etablissement/${numeroEtablissement}/texte")
+        val texteStr = httpBuilder.getAsString("/etablissement/${numeroEtablissement}/texte")
         return mapper
             .readValue<Collection<TexteDto>>(texteStr)
             .filter { it.isNotEmpty() }

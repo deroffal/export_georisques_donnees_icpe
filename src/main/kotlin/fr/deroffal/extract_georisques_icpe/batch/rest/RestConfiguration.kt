@@ -3,6 +3,7 @@ package fr.deroffal.extract_georisques_icpe.batch.rest
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import fr.deroffal.extract_georisques_icpe.AppProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.stereotype.Service
@@ -11,17 +12,14 @@ import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
-const val baseUrl = "http://www.georisques.gouv.fr/webappReport/ws/installations"
-
 @Configuration
 class RestConfiguration {
     @Bean
     fun mapper(): ObjectMapper = jacksonObjectMapper().registerModule(JavaTimeModule())
 }
 
-
 @Service
-class HttpBuilder {
+class HttpBuilder(val properties: AppProperties) {
 
     private val httpClient = HttpClient.newBuilder().build()
 
@@ -30,8 +28,9 @@ class HttpBuilder {
         .GET()
 
     private val bodyHandler = HttpResponse.BodyHandlers.ofString()
+
     fun getAsString(uri: String): String {
-        val httpRequest = getRequestBuilder.uri(URI.create(uri)).build()
+        val httpRequest = getRequestBuilder.uri(URI.create("${properties.rest.baseUrl}$uri")).build()
         return httpClient.send(httpRequest, bodyHandler).body()
     }
 }
