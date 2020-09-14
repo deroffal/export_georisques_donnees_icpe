@@ -48,6 +48,9 @@ dependencies {
     compileOnly("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
 
 	kapt("org.springframework.boot:spring-boot-configuration-processor")
+
+    implementation("org.mapstruct:mapstruct:1.4.0.CR1")
+    kapt("org.mapstruct:mapstruct-processor:1.4.0.CR1")
 }
 
 tasks.withType<Test> {

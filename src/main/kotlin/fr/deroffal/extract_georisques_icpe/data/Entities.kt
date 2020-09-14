@@ -63,9 +63,9 @@ data class Situation(
     val etatActivite: EtatActivite,
     val regime: String?,
     val idRegime: String?,
-    val activiteNomenclatureInst: String?,
+    val activiteNomenclature: String?,
     val familleNomenclature: String?,
-    val volumeInst: String?,
+    val volume: String?,
     val unite: String?
 ) {
     @Id

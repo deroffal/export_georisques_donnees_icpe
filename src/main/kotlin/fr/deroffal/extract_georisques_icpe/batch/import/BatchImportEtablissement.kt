@@ -1,9 +1,6 @@
 package fr.deroffal.extract_georisques_icpe.batch.import
 
-import fr.deroffal.extract_georisques_icpe.batch.rest.EtablissementService
-import fr.deroffal.extract_georisques_icpe.batch.rest.ParametreExport
-import fr.deroffal.extract_georisques_icpe.batch.rest.SituationService
-import fr.deroffal.extract_georisques_icpe.batch.rest.TexteService
+import fr.deroffal.extract_georisques_icpe.batch.rest.*
 import fr.deroffal.extract_georisques_icpe.data.Etablissement
 import org.springframework.batch.core.configuration.annotation.StepScope
 import org.springframework.batch.item.ItemProcessor
@@ -50,7 +47,9 @@ class BatchImportEtablissementReader(
 class BatchImportEtablissementProcessor(
     private val etablissementService: EtablissementService,
     private val situationService: SituationService,
-    private val texteService: TexteService
+    private val texteService: TexteService,
+    private val texteMapper: TexteMapper,
+    private val localisationMapper: LocalisationMapper
 ) : ItemProcessor<String, Etablissement> {
 
     override fun process(idInstallation: String): Etablissement? {
@@ -64,8 +63,8 @@ class BatchImportEtablissementProcessor(
             nom = installation.nomInst!!,//TODO à valider
             codeSiret = installation.codeSiret,
             localisation = localisation,
-            textes = textes.map { it.toTexte() }.toMutableList(),
-            situations = situation.map { it.toSituation() }.toMutableList()
+            textes = textes.map { texteMapper.toEntity(it) }.toMutableList(),
+            situations = situation.map { localisationMapper.toEntity(it) }.toMutableList()
         )
     }
 }

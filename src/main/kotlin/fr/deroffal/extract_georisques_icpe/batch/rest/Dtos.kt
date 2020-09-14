@@ -4,7 +4,6 @@ import fr.deroffal.extract_georisques_icpe.batch.rest.EtatActivite.EN_CONSTRUCTI
 import fr.deroffal.extract_georisques_icpe.batch.rest.EtatActivite.EN_FONCTIONNEMENT
 import fr.deroffal.extract_georisques_icpe.data.Localisation
 import fr.deroffal.extract_georisques_icpe.data.Situation
-import fr.deroffal.extract_georisques_icpe.data.Texte
 import java.time.LocalDate
 
 
@@ -24,20 +23,6 @@ data class SituationDto(
 ) {
     fun aAfficher() =
         etatActivite in listOf(EN_CONSTRUCTION, EN_FONCTIONNEMENT).map { it.code }
-
-    fun toSituation() = Situation(
-        seveso = seveso,
-        codeNomenclature = codeNomenclature,
-        alinea = alinea,
-        dateAutorisation = dateAutorisation,
-        etatActivite = EtatActivite.values().find { it.code == etatActivite }!!,
-        regime = regime,
-        idRegime = idRegime,
-        activiteNomenclatureInst = activiteNomenclatureInst,
-        familleNomenclature = familleNomenclature,
-        volumeInst = volumeInst,
-        unite = unite
-    )
 }
 
 
@@ -91,11 +76,4 @@ data class EtablissementDto(
 
 data class TexteDto(val dateDoc: LocalDate?, val typeDoc: String?, val descriptionDoc: String?, val urlDoc: String?) {
     fun isNotEmpty() = listOfNotNull(dateDoc, typeDoc, descriptionDoc, urlDoc).isNotEmpty()
-
-    fun toTexte() = Texte(
-        dateDoc = dateDoc,
-        typeDoc = typeDoc,
-        descriptionDoc = descriptionDoc,
-        urlDoc = urlDoc
-    )
 }
