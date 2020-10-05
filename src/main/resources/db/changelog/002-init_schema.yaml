@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1601908209756-00
+      author: deroffal
+      changes:
+        - sqlFile:
+            path: db/changelog/002-schema.sql

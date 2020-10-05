@@ -5,5 +5,6 @@ services:
     container_name: "exportgeorisquesdb"
     environment:
       POSTGRES_PASSWORD: pwd
+      POSTGRES_DB: exportgeorisquesdb
     ports:
       - "54320:5432"
