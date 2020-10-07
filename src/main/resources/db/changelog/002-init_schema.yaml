@@ -3,5 +3,194 @@ databaseChangeLog:
       id: 1601908209756-00
       author: deroffal
       changes:
-        - sqlFile:
-            path: db/changelog/002-schema.sql
+        - createTable:
+            schemaName: public
+            tableName: etablissement
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  remarks: id technique
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: etablissementPK
+              - column:
+                  name: code_siret
+                  type: BIGINT
+                  remarks: code siret
+              - column:
+                  name: id_inst
+                  type: VARCHAR(255)
+                  remarks: id fonctionnel
+              - column:
+                  name: nom
+                  type: VARCHAR(255)
+                  remarks: nom
+
+  - changeSet:
+      id: 1601908209756-01
+      author: deroffal
+      changes:
+        - createTable:
+            schemaName: public
+            tableName: localisation
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  remarks: id technique
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: localisationPK
+              - column:
+                  name: adresse1
+                  type: VARCHAR(255)
+                  remarks: 1ere partie de l'adresse
+              - column:
+                  name: adresse2
+                  type: VARCHAR(255)
+                  remarks: 2eme partie de l'adresse*
+              - column:
+                  name: code_insee
+                  type: VARCHAR(5)
+                  remarks: code insee de la ville
+              - column:
+                  name: code_postal
+                  type: VARCHAR(5)
+                  remarks: code postal
+              - column:
+                  name: commune
+                  type: VARCHAR(255)
+                  remarks: nom de la commune
+              - column:
+                  name: departement
+                  type: VARCHAR(255)
+                  remarks: nom du département
+              - column:
+                  name: region
+                  type: VARCHAR(255)
+                  remarks: nom de la région
+              - column:
+                  name: x
+                  type: BIGINT
+                  remarks: coordonnée GPS x
+              - column:
+                  name: y
+                  type: BIGINT
+                  remarks: coordonnée GPS y
+              - column:
+                  name: etablissement_id
+                  type: BIGINT
+                  remarks: id de l'établissement
+                  constraints:
+                    foreignKeyName: localisation_etablissementFK
+                    references: etablissement
+
+  - changeSet:
+      id: 1601908209756-02
+      author: deroffal
+      changes:
+        - createTable:
+            schemaName: public
+            tableName: situation
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  remarks: id technique
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: situationPK
+              - column:
+                  name: activite_nomenclature
+                  type: VARCHAR(255)
+                  remarks: activité
+              - column:
+                  name: alinea
+                  type: VARCHAR(255)
+                  remarks: alinéa
+              - column:
+                  name: code_nomenclature
+                  type: VARCHAR(255)
+                  remarks: code nomenclature
+              - column:
+                  name: famille_nomenclature
+                  type: VARCHAR(255)
+                  remarks: famille nomenclature
+              - column:
+                  name: date_autorisation
+                  type: DATE
+                  remarks: date autorisation
+              - column:
+                  name: etat_activite
+                  type: INTEGER
+                  remarks: état de l'activité
+              - column:
+                  name: id_regime
+                  type: VARCHAR(255)
+                  remarks: id du régime
+              - column:
+                  name: regime
+                  type: VARCHAR(255)
+                  remarks: libellé du régime
+              - column:
+                  name: seveso
+                  type: VARCHAR(255)
+                  remarks: seveso
+              - column:
+                  name: unite
+                  type: VARCHAR(255)
+                  remarks: unite
+              - column:
+                  name: volume
+                  type: VARCHAR(255)
+                  remarks: volume
+              - column:
+                  name: etablissement_id
+                  type: BIGINT
+                  remarks: id de l'établissement
+                  constraints:
+                    foreignKeyName: situation_etablissementFK
+                    references: etablissement
+  - changeSet:
+      id: 1601908209756-03
+      author: deroffal
+      changes:
+        - createTable:
+            schemaName: public
+            tableName: texte
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  remarks: id technique
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: textePK
+              - column:
+                  name: date_doc
+                  type: DATE
+                  remarks: date d'édition
+              - column:
+                  name: type_doc
+                  type: VARCHAR(255)
+                  remarks: type du document
+              - column:
+                  name: description_doc
+                  type: VARCHAR(255)
+                  remarks: description du document
+              - column:
+                  name: url_doc
+                  type: VARCHAR(255)
+                  remarks: url du document
+              - column:
+                  name: etablissement_id
+                  type: BIGINT
+                  remarks: id de l'établissement
+                  constraints:
+                    foreignKeyName: texte_etablissementFK
+                    references: etablissement
