@@ -34,8 +34,8 @@ enum class EtatActivite(val code: Int) {
 }
 
 data class EtablissementDto(
-    val idInst: String?,
-    val nomInst: String?,
+    val idInst: String,
+    val nomInst: String,
     val codeSiret: Long?,
 
     val regionInst: String?,

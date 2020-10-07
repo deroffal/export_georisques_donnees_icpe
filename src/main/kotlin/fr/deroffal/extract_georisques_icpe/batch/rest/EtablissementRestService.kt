@@ -7,7 +7,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 @Service
-class EtablissementService(
+class EtablissementRestService(
     private val httpBuilder: HttpBuilder,
     private val mapper: ObjectMapper
 ) {
@@ -72,18 +72,3 @@ enum class ParametreGeographiqueExport(val clef: String, val code: Int) {
 
     fun asUrlParam() = "${this.clef}=${this.code}"
 }
-
-//data class EtablissementCsv(
-//    val numeroInspection: String,
-//    val nom: String,
-//    val codePostal: String,
-//    val commune: String,
-//    val departement: String,
-//    val regimeEnVigueur: String,
-//    val statutSeveso: String,
-//    val etatActivite: String,
-//    val prioriteNationale: String,
-//    val iedMtd: String
-//) {
-//    fun getNumeroEtablissement() = numeroInspection.replace('.', '-')
-//}

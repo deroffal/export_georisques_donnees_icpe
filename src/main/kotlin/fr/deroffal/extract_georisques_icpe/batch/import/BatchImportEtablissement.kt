@@ -2,6 +2,7 @@ package fr.deroffal.extract_georisques_icpe.batch.import
 
 import fr.deroffal.extract_georisques_icpe.batch.rest.*
 import fr.deroffal.extract_georisques_icpe.data.Etablissement
+import fr.deroffal.extract_georisques_icpe.service.EtablissementService
 import org.springframework.batch.core.configuration.annotation.StepScope
 import org.springframework.batch.item.ItemProcessor
 import org.springframework.batch.item.ItemReader
@@ -13,7 +14,7 @@ import java.time.Instant
 @Component
 @StepScope
 class BatchImportEtablissementReader(
-    private val etablissementService: EtablissementService,
+    private val etablissementRestService: EtablissementRestService,
     @Value("#{jobParameters['parametreGeographiqueExport']}") private val parametreGeographiqueExport: String?,
     @Value("#{jobParameters['exclureSeveso']}") private val exclureSeveso: String?
 ) : ItemReader<String> {
@@ -38,14 +39,14 @@ class BatchImportEtablissementReader(
             .exclureSeveso(exclureSeveso)
             .build()
 
-        return etablissementService.listerIdInstallation(params)
+        return etablissementRestService.listerIdInstallation(params)
     }
 }
 
 @Component
 @StepScope
 class BatchImportEtablissementProcessor(
-    private val etablissementService: EtablissementService,
+    private val etablissementRestService: EtablissementRestService,
     private val situationService: SituationService,
     private val texteService: TexteService,
     private val texteMapper: TexteMapper,
@@ -53,14 +54,14 @@ class BatchImportEtablissementProcessor(
 ) : ItemProcessor<String, Etablissement> {
 
     override fun process(idInstallation: String): Etablissement? {
-        val installation = etablissementService.recupererEtablissement(idInstallation)
+        val installation = etablissementRestService.recupererEtablissement(idInstallation)
         val localisation = installation.toLocalisation()
         val textes = texteService.recupererTextes(idInstallation)
         val situation = situationService.recupererSituations(idInstallation)
 
         return Etablissement(
             idInst = idInstallation,
-            nom = installation.nomInst!!,//TODO à valider
+            nom = installation.nomInst,
             codeSiret = installation.codeSiret,
             localisation = localisation,
             textes = textes.map { texteMapper.toEntity(it) }.toMutableList(),
@@ -71,10 +72,12 @@ class BatchImportEtablissementProcessor(
 
 @Component
 @StepScope
-class BatchImportEtablissementWriter : ItemWriter<Etablissement> {
-    override fun write(items: MutableList<out Etablissement>) {
+class BatchImportEtablissementWriter(
+    private val etablissementService: EtablissementService
+) : ItemWriter<Etablissement> {
+    override fun write(etablissements: MutableList<out Etablissement>) {
         println(Instant.now())
-//        TODO("Not yet implemented")
+        etablissements.forEach { etablissementService.createOrUpdate(it) }
     }
 }
 

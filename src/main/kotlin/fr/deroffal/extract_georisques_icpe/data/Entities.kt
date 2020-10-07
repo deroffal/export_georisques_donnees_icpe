@@ -6,9 +6,9 @@ import javax.persistence.*
 
 @Entity
 data class Etablissement(
-    val idInst: String,
-    val nom: String,
-    val codeSiret: Long?,
+    var idInst: String,
+    var nom: String,
+    var codeSiret: Long?,
     @OneToOne(mappedBy = "etablissement") val localisation: Localisation,
     @OneToMany(mappedBy = "etablissement") val situations: List<Situation>,
     @OneToMany(mappedBy = "etablissement") val textes: List<Texte>
@@ -20,15 +20,15 @@ data class Etablissement(
 
 @Entity
 data class Localisation(
-    val region: String?,
-    val departement: String?,
-    val commune: String?,
-    val codePostal: String?,
-    val adresse1: String?,
-    val adresse2: String?,
-    val codeInsee: String?,
-    val x: Long?,
-    val y: Long?
+    var region: String?,
+    var departement: String?,
+    var commune: String?,
+    var codePostal: String?,
+    var adresse1: String?,
+    var adresse2: String?,
+    var codeInsee: String?,
+    var x: Long?,
+    var y: Long?
 ) {
     @Id
     @GeneratedValue
@@ -40,10 +40,10 @@ data class Localisation(
 
 @Entity
 data class Texte(
-    val dateDoc: LocalDate?,
-    val typeDoc: String?,
-    val descriptionDoc: String?,
-    val urlDoc: String?
+    var dateDoc: LocalDate?,
+    var typeDoc: String?,
+    var descriptionDoc: String?,
+    var urlDoc: String?
 ) {
 
     @Id
@@ -56,17 +56,17 @@ data class Texte(
 
 @Entity
 data class Situation(
-    val seveso: String,
-    val codeNomenclature: String?,
-    val alinea: String?,
-    val dateAutorisation: LocalDate?,
-    val etatActivite: EtatActivite,
-    val regime: String?,
-    val idRegime: String?,
-    val activiteNomenclature: String?,
-    val familleNomenclature: String?,
-    val volume: String?,
-    val unite: String?
+    var seveso: String,
+    var codeNomenclature: String?,
+    var alinea: String?,
+    var dateAutorisation: LocalDate?,
+    var etatActivite: EtatActivite,
+    var regime: String?,
+    var idRegime: String?,
+    var activiteNomenclature: String?,
+    var familleNomenclature: String?,
+    var volume: String?,
+    var unite: String?
 ) {
     @Id
     @GeneratedValue

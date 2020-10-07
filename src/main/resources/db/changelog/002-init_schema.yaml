@@ -27,7 +27,6 @@ databaseChangeLog:
                   name: nom
                   type: VARCHAR(255)
                   remarks: nom
-
   - changeSet:
       id: 1601908209756-01
       author: deroffal
@@ -44,6 +43,13 @@ databaseChangeLog:
                   constraints:
                     primaryKey: true
                     primaryKeyName: localisationPK
+              - column:
+                  name: etablissement_id
+                  type: BIGINT
+                  remarks: id de l'établissement
+                  constraints:
+                    foreignKeyName: localisation_etablissementFK
+                    references: etablissement
               - column:
                   name: adresse1
                   type: VARCHAR(255)
@@ -80,13 +86,6 @@ databaseChangeLog:
                   name: y
                   type: BIGINT
                   remarks: coordonnée GPS y
-              - column:
-                  name: etablissement_id
-                  type: BIGINT
-                  remarks: id de l'établissement
-                  constraints:
-                    foreignKeyName: localisation_etablissementFK
-                    references: etablissement
 
   - changeSet:
       id: 1601908209756-02
@@ -104,6 +103,13 @@ databaseChangeLog:
                   constraints:
                     primaryKey: true
                     primaryKeyName: situationPK
+              - column:
+                  name: etablissement_id
+                  type: BIGINT
+                  remarks: id de l'établissement
+                  constraints:
+                    foreignKeyName: situation_etablissementFK
+                    references: etablissement
               - column:
                   name: activite_nomenclature
                   type: VARCHAR(255)
@@ -148,13 +154,7 @@ databaseChangeLog:
                   name: volume
                   type: VARCHAR(255)
                   remarks: volume
-              - column:
-                  name: etablissement_id
-                  type: BIGINT
-                  remarks: id de l'établissement
-                  constraints:
-                    foreignKeyName: situation_etablissementFK
-                    references: etablissement
+
   - changeSet:
       id: 1601908209756-03
       author: deroffal
@@ -172,6 +172,13 @@ databaseChangeLog:
                     primaryKey: true
                     primaryKeyName: textePK
               - column:
+                  name: etablissement_id
+                  type: BIGINT
+                  remarks: id de l'établissement
+                  constraints:
+                    foreignKeyName: texte_etablissementFK
+                    references: etablissement
+              - column:
                   name: date_doc
                   type: DATE
                   remarks: date d'édition
@@ -187,10 +194,34 @@ databaseChangeLog:
                   name: url_doc
                   type: VARCHAR(255)
                   remarks: url du document
-              - column:
-                  name: etablissement_id
-                  type: BIGINT
-                  remarks: id de l'établissement
-                  constraints:
-                    foreignKeyName: texte_etablissementFK
-                    references: etablissement
+
+  - changeSet:
+      id: 1601908209756-04
+      author: deroffal
+      changes:
+        - addUniqueConstraint:
+            schemaName: public
+            tableName: etablissement
+            columnNames: id_inst
+            constraintName: etablissement_idInst_unique
+        - addUniqueConstraint:
+            schemaName: public
+            tableName: localisation
+            columnNames: etablissement_id
+            constraintName: localisation_etablissementId_unique
+
+##Par commodité pour les upserts, on considère qu'il n'y a d'un document et qu'une situation par date pour un établissement donné.
+#  - changeSet:
+#      id: 1601908209756-05
+#      author: deroffal
+#      changes:
+#        - addUniqueConstraint:
+#            schemaName: public
+#            tableName: situation
+#            columnNames: date_autorisation, etablissement_id
+#            constraintName: situation_dateAutorisation_parEtablissmeent_unique
+#        - addUniqueConstraint:
+#            schemaName: public
+#            tableName: texte
+#            columnNames: date_doc, etablissement_id
+#            constraintName: texte_dateDoc_parEtablissmeent_unique
