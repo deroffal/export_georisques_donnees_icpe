@@ -18,7 +18,7 @@ interface TexteMapper {
 }
 
 @Mapper(componentModel = "spring")
-abstract class LocalisationMapper {
+abstract class SituationMapper {
 
     @Mappings(
         Mapping(target = "id", ignore = true),

@@ -1,4 +1,4 @@
-package fr.deroffal.extract_georisques_icpe.batch.import
+package fr.deroffal.extract_georisques_icpe.batch.importation
 
 import fr.deroffal.extract_georisques_icpe.data.Etablissement
 import org.springframework.batch.core.Job

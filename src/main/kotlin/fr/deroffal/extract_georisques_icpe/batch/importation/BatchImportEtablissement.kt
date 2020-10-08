@@ -1,4 +1,4 @@
-package fr.deroffal.extract_georisques_icpe.batch.import
+package fr.deroffal.extract_georisques_icpe.batch.importation
 
 import fr.deroffal.extract_georisques_icpe.batch.rest.*
 import fr.deroffal.extract_georisques_icpe.data.Etablissement
@@ -50,7 +50,7 @@ class BatchImportEtablissementProcessor(
     private val situationService: SituationService,
     private val texteService: TexteService,
     private val texteMapper: TexteMapper,
-    private val localisationMapper: LocalisationMapper
+    private val situationMapper: SituationMapper
 ) : ItemProcessor<String, Etablissement> {
 
     override fun process(idInstallation: String): Etablissement? {
@@ -65,7 +65,7 @@ class BatchImportEtablissementProcessor(
             codeSiret = installation.codeSiret,
             localisation = localisation,
             textes = textes.map { texteMapper.toEntity(it) }.toMutableList(),
-            situations = situation.map { localisationMapper.toEntity(it) }.toMutableList()
+            situations = situation.map { situationMapper.toEntity(it) }.toMutableList()
         )
     }
 }

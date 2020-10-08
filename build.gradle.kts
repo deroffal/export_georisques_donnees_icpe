@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("org.springframework.boot") version "2.3.2.RELEASE"
     id("io.spring.dependency-management") version "1.0.9.RELEASE"
+    id("groovy")
     kotlin("jvm") version "1.3.72"
     kotlin("plugin.spring") version "1.3.72"
     kotlin("plugin.jpa") version "1.3.72"
@@ -54,6 +55,11 @@ dependencies {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
     testImplementation("org.springframework.batch:spring-batch-test")
+
+    testImplementation("org.codehaus.groovy:groovy-all:2.5.13")
+    testImplementation("org.spockframework:spock-core:2.0-M3-groovy-2.5") {
+        exclude(group = "org.codehaus.groovy", module = "groovy-all")
+    }
 }
 
 tasks.withType<Test> {
