@@ -37,12 +37,12 @@ dependencies {
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     annotationProcessor("org.projectlombok:lombok")
 
-    implementation(enforcedPlatform("com.fasterxml.jackson:jackson-bom:2.11.0"))
-    compileOnly("com.fasterxml.jackson.core:jackson-databind")
-    compileOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
-    compileOnly("com.fasterxml.jackson.module:jackson-module-parameter-names")
-    compileOnly("com.fasterxml.jackson.datatype:jackson-datatype-jdk8")
-    compileOnly("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
+    implementation(enforcedPlatform("com.fasterxml.jackson:jackson-bom:2.11.3"))
+    implementation("com.fasterxml.jackson.core:jackson-databind")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("com.fasterxml.jackson.module:jackson-module-parameter-names")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jdk8")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
 
     kapt("org.springframework.boot:spring-boot-configuration-processor")
 
@@ -60,6 +60,16 @@ dependencies {
     testImplementation("org.spockframework:spock-core:2.0-M3-groovy-2.5") {
         exclude(group = "org.codehaus.groovy", module = "groovy-all")
     }
+
+//    testImplementation("org.testcontainers:jdbc:1.14.3"){
+//        exclude(group = "com.fasterxml.jackson")
+//    }
+//    testImplementation("org.testcontainers:postgresql:1.14.3"){
+//        exclude(group = "com.fasterxml.jackson")
+//    }
+//    testImplementation("org.testcontainers:spock:1.14.3"){
+//        exclude(group = "com.fasterxml.jackson")
+//    }
 }
 
 tasks.withType<Test> {
