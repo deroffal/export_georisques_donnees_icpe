@@ -29,4 +29,7 @@ jobs:
       - name: Build
         run: |
           chmod +x gradlew
-          ./gradlew build
+          ./gradlew assemble
+
+      - name: Test
+        run: ./gradlew test
