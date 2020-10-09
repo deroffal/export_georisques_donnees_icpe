@@ -1,4 +1,4 @@
-package fr.deroffal.extract_georisques_icpe.batch.rest
+package fr.deroffal.extract_georisques_icpe.batch.rest.beans
 
 import fr.deroffal.extract_georisques_icpe.data.Situation
 import fr.deroffal.extract_georisques_icpe.data.Texte

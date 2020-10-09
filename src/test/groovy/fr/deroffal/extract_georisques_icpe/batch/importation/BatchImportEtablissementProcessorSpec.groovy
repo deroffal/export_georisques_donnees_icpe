@@ -1,6 +1,14 @@
 package fr.deroffal.extract_georisques_icpe.batch.importation
 
-import fr.deroffal.extract_georisques_icpe.batch.rest.*
+
+import fr.deroffal.extract_georisques_icpe.batch.rest.beans.EtablissementDto
+import fr.deroffal.extract_georisques_icpe.batch.rest.beans.SituationDto
+import fr.deroffal.extract_georisques_icpe.batch.rest.beans.SituationMapper
+import fr.deroffal.extract_georisques_icpe.batch.rest.beans.TexteDto
+import fr.deroffal.extract_georisques_icpe.batch.rest.beans.TexteMapper
+import fr.deroffal.extract_georisques_icpe.batch.rest.services.EtablissementRestService
+import fr.deroffal.extract_georisques_icpe.batch.rest.services.SituationService
+import fr.deroffal.extract_georisques_icpe.batch.rest.services.TexteService
 import fr.deroffal.extract_georisques_icpe.data.Etablissement
 import fr.deroffal.extract_georisques_icpe.data.Localisation
 import fr.deroffal.extract_georisques_icpe.data.Situation
@@ -9,7 +17,7 @@ import spock.lang.Specification
 
 import java.time.LocalDate
 
-import static fr.deroffal.extract_georisques_icpe.batch.rest.EtatActivite.EN_FONCTIONNEMENT
+import static fr.deroffal.extract_georisques_icpe.batch.rest.beans.EtatActivite.EN_FONCTIONNEMENT
 
 class BatchImportEtablissementProcessorSpec extends Specification {
 

@@ -1,11 +1,9 @@
-package fr.deroffal.extract_georisques_icpe.batch.rest
+package fr.deroffal.extract_georisques_icpe.batch.rest.beans
 
-import fr.deroffal.extract_georisques_icpe.batch.rest.EtatActivite.EN_CONSTRUCTION
-import fr.deroffal.extract_georisques_icpe.batch.rest.EtatActivite.EN_FONCTIONNEMENT
+import fr.deroffal.extract_georisques_icpe.batch.rest.beans.EtatActivite.EN_CONSTRUCTION
+import fr.deroffal.extract_georisques_icpe.batch.rest.beans.EtatActivite.EN_FONCTIONNEMENT
 import fr.deroffal.extract_georisques_icpe.data.Localisation
-import fr.deroffal.extract_georisques_icpe.data.Situation
 import java.time.LocalDate
-
 
 //https://www.georisques.gouv.fr/webappReport/ws/installations/etablissement/0063-03511/situation
 data class SituationDto(

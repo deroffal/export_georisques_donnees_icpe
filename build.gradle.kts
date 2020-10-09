@@ -61,19 +61,14 @@ dependencies {
         exclude(group = "org.codehaus.groovy", module = "groovy-all")
     }
 
-//    testImplementation("org.testcontainers:jdbc:1.14.3"){
-//        exclude(group = "com.fasterxml.jackson")
-//    }
-//    testImplementation("org.testcontainers:postgresql:1.14.3"){
-//        exclude(group = "com.fasterxml.jackson")
-//    }
-//    testImplementation("org.testcontainers:spock:1.14.3"){
-//        exclude(group = "com.fasterxml.jackson")
-//    }
+    testImplementation("org.testcontainers:jdbc:1.14.3")
+    testImplementation("org.testcontainers:postgresql:1.14.3")
+    testImplementation("org.testcontainers:spock:1.14.3")
 }
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    systemProperty("spring.profiles.active", "test")
 }
 
 tasks.withType<KotlinCompile> {

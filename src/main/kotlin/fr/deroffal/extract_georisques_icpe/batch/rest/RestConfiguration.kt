@@ -7,10 +7,6 @@ import fr.deroffal.extract_georisques_icpe.AppProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.stereotype.Service
-import java.net.URI
-import java.net.http.HttpClient
-import java.net.http.HttpRequest
-import java.net.http.HttpResponse
 
 @Configuration
 class RestConfiguration {
@@ -18,19 +14,11 @@ class RestConfiguration {
     fun mapper(): ObjectMapper = jacksonObjectMapper().registerModule(JavaTimeModule())
 }
 
+interface RestProperties {
+    fun getBaseUrl(): String
+}
+
 @Service
-class HttpBuilder(val properties: AppProperties) {
-
-    private val httpClient = HttpClient.newBuilder().build()
-
-    private val getRequestBuilder = HttpRequest.newBuilder()
-        .setHeader("User-Agent", "export_georisques_donnees_icpe")
-        .GET()
-
-    private val bodyHandler = HttpResponse.BodyHandlers.ofString()
-
-    fun getAsString(uri: String): String {
-        val httpRequest = getRequestBuilder.uri(URI.create("${properties.rest.baseUrl}$uri")).build()
-        return httpClient.send(httpRequest, bodyHandler).body()
-    }
+class SimpleRestProperties(private val properties: AppProperties) : RestProperties {
+    override fun getBaseUrl() = System.getProperty("app.rest.baseUrl") ?: properties.rest.baseUrl
 }

@@ -1,6 +1,6 @@
 package fr.deroffal.extract_georisques_icpe.data
 
-import fr.deroffal.extract_georisques_icpe.batch.rest.EtatActivite
+import fr.deroffal.extract_georisques_icpe.batch.rest.beans.EtatActivite
 import java.time.LocalDate
 import javax.persistence.*
 

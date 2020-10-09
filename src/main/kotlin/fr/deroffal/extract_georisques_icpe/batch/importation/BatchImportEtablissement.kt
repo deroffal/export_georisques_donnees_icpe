@@ -1,6 +1,11 @@
 package fr.deroffal.extract_georisques_icpe.batch.importation
 
-import fr.deroffal.extract_georisques_icpe.batch.rest.*
+import fr.deroffal.extract_georisques_icpe.batch.rest.beans.SituationMapper
+import fr.deroffal.extract_georisques_icpe.batch.rest.beans.TexteMapper
+import fr.deroffal.extract_georisques_icpe.batch.rest.services.EtablissementRestService
+import fr.deroffal.extract_georisques_icpe.batch.rest.services.ParametreExport
+import fr.deroffal.extract_georisques_icpe.batch.rest.services.SituationService
+import fr.deroffal.extract_georisques_icpe.batch.rest.services.TexteService
 import fr.deroffal.extract_georisques_icpe.data.Etablissement
 import fr.deroffal.extract_georisques_icpe.service.EtablissementService
 import org.springframework.batch.core.configuration.annotation.StepScope

@@ -1,7 +1,9 @@
-package fr.deroffal.extract_georisques_icpe.batch.rest
+package fr.deroffal.extract_georisques_icpe.batch.rest.services
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import fr.deroffal.extract_georisques_icpe.batch.rest.HttpBuilder
+import fr.deroffal.extract_georisques_icpe.batch.rest.beans.SituationDto
 import org.springframework.stereotype.Service
 
 @Service
