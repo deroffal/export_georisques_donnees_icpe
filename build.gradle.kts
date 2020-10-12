@@ -57,13 +57,14 @@ dependencies {
     testImplementation("org.springframework.batch:spring-batch-test")
 
     testImplementation("org.codehaus.groovy:groovy-all:2.5.13")
-    testImplementation("org.spockframework:spock-core:2.0-M3-groovy-2.5") {
-        exclude(group = "org.codehaus.groovy", module = "groovy-all")
-    }
+    testImplementation("org.spockframework:spock-core:2.0-M3-groovy-2.5")
+    testImplementation("org.spockframework:spock-spring:2.0-M3-groovy-2.5")
 
     testImplementation("org.testcontainers:jdbc:1.14.3")
     testImplementation("org.testcontainers:postgresql:1.14.3")
     testImplementation("org.testcontainers:spock:1.14.3")
+
+    testImplementation("org.springframework.cloud:spring-cloud-starter-contract-stub-runner:2.2.4.RELEASE")
 }
 
 tasks.withType<Test> {
