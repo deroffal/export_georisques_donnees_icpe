@@ -65,6 +65,8 @@ dependencies {
     testImplementation("org.testcontainers:spock:1.14.3")
 
     testImplementation("org.springframework.cloud:spring-cloud-starter-contract-stub-runner:2.2.4.RELEASE")
+
+    testImplementation("org.dbunit:dbunit:2.7.0")
 }
 
 tasks.withType<Test> {

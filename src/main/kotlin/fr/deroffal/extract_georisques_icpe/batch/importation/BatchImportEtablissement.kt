@@ -81,7 +81,6 @@ class BatchImportEtablissementWriter(
     private val etablissementService: EtablissementService
 ) : ItemWriter<Etablissement> {
     override fun write(etablissements: MutableList<out Etablissement>) {
-        println(Instant.now())
         etablissements.forEach { etablissementService.createOrUpdate(it) }
     }
 }

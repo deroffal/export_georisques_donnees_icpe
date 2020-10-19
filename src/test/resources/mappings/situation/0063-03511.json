@@ -1,0 +1,10 @@
+{
+  "request": {
+    "urlPath": "/etablissement/0063-03511/situation",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "situation/0063-03511.json"
+  }
+}

@@ -2,21 +2,23 @@ package fr.deroffal.extract_georisques_icpe.batch.rest.services
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import fr.deroffal.extract_georisques_icpe.batch.rest.beans.EtablissementDto
 import fr.deroffal.extract_georisques_icpe.batch.rest.HttpBuilder
+import fr.deroffal.extract_georisques_icpe.batch.rest.beans.EtablissementDto
+import fr.deroffal.extract_georisques_icpe.service.DateService
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 @Service
 class EtablissementRestService(
+    private val dateService: DateService,
     private val httpBuilder: HttpBuilder,
     private val mapper: ObjectMapper
 ) {
 
     fun listerIdInstallation(parametreExport: ParametreExport): List<String> {
-        return httpBuilder.getAsString(parametreExport.buildUri())
-            .split("\r\n").filterNot { it.isEmpty() }.drop(1)
+        return httpBuilder.getAsString(parametreExport.buildUri(dateService.today()))
+            .split("\n").filterNot { it.isEmpty() }.drop(1)
             .map { it.split(";") }
             .map { it[0].replace('.', '-') }
     }
@@ -37,10 +39,10 @@ class ParametreExport private constructor(
     private fun getParametreGeographique() =
         if (hasParametreGeographique()) parametreGeographiqueExport!!.asUrlParam() else ""
 
-    fun buildUri(): String {
+    fun buildUri(date: LocalDate): String {
         //URI minimale pour avoir un export
         var baseUri = "/sitesdetails/detailsites_${
-            LocalDate.now().format(DateTimeFormatter.ISO_DATE)
+            date.format(DateTimeFormatter.ISO_DATE)
         }.csv?etablissement=&isExport=true"
         if (hasParametreGeographique()) {
             baseUri += "&${getParametreGeographique()}"

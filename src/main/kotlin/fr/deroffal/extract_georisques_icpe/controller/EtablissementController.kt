@@ -1,5 +1,6 @@
 package fr.deroffal.extract_georisques_icpe.controller
 
+import fr.deroffal.extract_georisques_icpe.batch.rest.services.TexteService
 import fr.deroffal.extract_georisques_icpe.data.Etablissement
 import fr.deroffal.extract_georisques_icpe.data.EtablissementRepository
 import org.springframework.batch.core.Job
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController
 class EtablissementController(
     private val etablissementRepository: EtablissementRepository,
     private val jobLauncher: JobLauncher,
+    private val texteService: TexteService,
     private val importJob: Job
 ) {
 

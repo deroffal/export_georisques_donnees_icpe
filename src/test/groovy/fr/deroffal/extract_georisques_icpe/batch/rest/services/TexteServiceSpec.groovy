@@ -1,38 +1,11 @@
 package fr.deroffal.extract_georisques_icpe.batch.rest.services
 
-import com.github.tomakehurst.wiremock.WireMockServer
+import fr.deroffal.extract_georisques_icpe.util.WithWireMockSpecification
 import fr.deroffal.extract_georisques_icpe.batch.rest.beans.TexteDto
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.cloud.contract.wiremock.WireMockSpring
-import org.springframework.test.context.ContextConfiguration
-import spock.lang.Shared
 import spock.lang.Specification
 
-////https://cloud.spring.io/spring-cloud-contract/reference/html/project-features.html#features-wiremock
-@SpringBootTest("app.rest.baseUrl=http://localhost:6443")
-@ContextConfiguration
-class TexteServiceSpec extends Specification {
-
-    @Shared
-    WireMockServer wiremock = new WireMockServer(
-            WireMockSpring.options().port(6443)
-    )
-
-    void setupSpec() {
-        wiremock.start()
-    }
-
-    /**
-     *  TODO The registered WireMock server is reset after each test class, however, if you need to reset it after each test method, just set the wiremock.reset-mappings-after-each-test property to true.
-     */
-    void cleanup() {
-        wiremock.resetAll()
-    }
-
-    void cleanupSpec() {
-        wiremock.shutdown()
-    }
+class TexteServiceSpec extends Specification implements WithWireMockSpecification {
 
     @Autowired
     TexteService texteService
@@ -70,7 +43,6 @@ class TexteServiceSpec extends Specification {
                 "N/5/8aac03245659950801565a35791e0005.pdf",
                 "N/7/8aac032456927819015692b9725a0057.pdf",
                 "N/9/8aac032473b341db0173b45176fb0019.pdf"
-
         ]
     }
 
