@@ -1,3 +1,4 @@
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -85,4 +86,15 @@ allOpen {
     annotation("javax.persistence.Entity")
     annotation("javax.persistence.Embeddable")
     annotation("javax.persistence.MappedSuperclass")
+}
+
+tasks.test {
+    testLogging {
+        events("passed", "skipped", "failed")
+        showStandardStreams = true
+        showStackTraces = true
+        showCauses = true
+        exceptionFormat = FULL
+    }
+    ignoreFailures = System.getProperties().getProperty("test.ignoreFailures")?.toBoolean() ?: false
 }
