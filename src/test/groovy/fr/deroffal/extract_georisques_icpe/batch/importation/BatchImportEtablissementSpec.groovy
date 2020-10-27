@@ -16,7 +16,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 
 @Title("Vérification du batch d'importation")
 @Subject(BatchImportEtablissementConfiguration)
-@SpringBootTest(webEnvironment = RANDOM_PORT, properties = ["app.rest.baseUrl=http://localhost:6443"])
+@SpringBootTest(webEnvironment = RANDOM_PORT)
 class BatchImportEtablissementSpec extends AbstractBatchSpec implements WithWireMockSpecification {
 
     @Autowired

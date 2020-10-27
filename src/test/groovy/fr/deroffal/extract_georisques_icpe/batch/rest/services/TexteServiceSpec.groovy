@@ -8,7 +8,7 @@ import spock.lang.Specification
 
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT
 
-@SpringBootTest(webEnvironment = RANDOM_PORT, properties = ["app.rest.baseUrl=http://localhost:6443"])
+@SpringBootTest(webEnvironment = RANDOM_PORT)
 class TexteServiceSpec extends Specification implements WithWireMockSpecification {
 
     @Autowired
