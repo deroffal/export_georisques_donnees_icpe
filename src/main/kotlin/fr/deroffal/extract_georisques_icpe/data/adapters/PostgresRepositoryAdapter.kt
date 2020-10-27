@@ -77,18 +77,15 @@ on conflict (etablissement_id) do update
         localisation.y
     )
 
-    /**
-     *     on conflict (etablissement_id, date_doc) do update
-            set type_doc        = excluded.type_doc,
-                description_doc = excluded.description_doc,
-                url_doc         = excluded.url_doc
-     */
     private fun createOrUpdateTextes(etablissementId: Long, textes: List<Texte>) =
         jdbcTemplate.update(
             """
     insert into texte(etablissement_id, date_doc, type_doc, description_doc, url_doc)
     values ${(textes.joinToString(separator = ", ") { "(?, ?, ?, ?, ?)" })}
-
+    on conflict (etablissement_id, url_doc) do update
+            set type_doc        = excluded.type_doc,
+                date_doc        = excluded.date_doc,
+                description_doc = excluded.description_doc
                 """.trimIndent(),
             ArgumentPreparedStatementSetter(textes.map {
                 listOf(
@@ -101,43 +98,32 @@ on conflict (etablissement_id) do update
             }.flatten().toTypedArray())
         )
 
-    /**
-     * on conflict (etablissement_id, date_autorisation) do update
-            set etablissement_id      = excluded.etablissement_id,
-            activite_nomenclature = excluded.activite_nomenclature,
-            alinea                = excluded.alinea,
-            code_nomenclature     = excluded.code_nomenclature,
-            famille_nomenclature  = excluded.famille_nomenclature,
-            date_autorisation     = excluded.date_autorisation,
-            etat_activite         = excluded.etat_activite,
-            id_regime             = excluded.id_regime,
-            regime                = excluded.regime,
-            seveso                = excluded.seveso,
-            unite                 = excluded.unite,
-            volume                = excluded.volume
-     */
-    private fun createOrUpdateSituations(etablissementId: Long, situations: List<Situation>) = jdbcTemplate.update(
-        """
-insert into situation (etablissement_id, activite_nomenclature, alinea, code_nomenclature, famille_nomenclature,
-                       date_autorisation, etat_activite, id_regime, regime, seveso, unite, volume)
-values ${situations.joinToString(separator = ", ") { "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)" }}
-
-            """.trimIndent(),
-        ArgumentPreparedStatementSetter(situations.map {
-            listOf(
-                etablissementId,
-                it.activiteNomenclature,
-                it.alinea,
-                it.codeNomenclature,
-                it.familleNomenclature,
-                it.dateAutorisation,
-                it.etatActivite.code,
-                it.idRegime,
-                it.regime,
-                it.seveso,
-                it.unite,
-                it.volume
-            )
-        }.flatten().toTypedArray())
-    )
+    //Pas de contrainte d'unicité, on doit faire un annule et remplace.
+    private fun createOrUpdateSituations(etablissementId: Long, situations: List<Situation>): Int {
+        jdbcTemplate.update("delete from situation where etablissement_id = ?", etablissementId)
+        return jdbcTemplate.update(
+            """
+    insert into situation (etablissement_id, activite_nomenclature, alinea, code_nomenclature, famille_nomenclature,
+                           date_autorisation, etat_activite, id_regime, regime, seveso, unite, volume)
+    values ${situations.joinToString(separator = ", ") { "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)" }}
+    
+                """.trimIndent(),
+            ArgumentPreparedStatementSetter(situations.map {
+                listOf(
+                    etablissementId,
+                    it.activiteNomenclature,
+                    it.alinea,
+                    it.codeNomenclature,
+                    it.familleNomenclature,
+                    it.dateAutorisation,
+                    it.etatActivite.code,
+                    it.idRegime,
+                    it.regime,
+                    it.seveso,
+                    it.unite,
+                    it.volume
+                )
+            }.flatten().toTypedArray())
+        )
+    }
 }

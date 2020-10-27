@@ -210,18 +210,12 @@ databaseChangeLog:
             columnNames: etablissement_id
             constraintName: localisation_etablissementId_unique
 
-##Par commodité pour les upserts, on considère qu'il n'y a d'un document et qu'une situation par date pour un établissement donné.
-#  - changeSet:
-#      id: 1601908209756-05
-#      author: deroffal
-#      changes:
-#        - addUniqueConstraint:
-#            schemaName: public
-#            tableName: situation
-#            columnNames: date_autorisation, etablissement_id
-#            constraintName: situation_dateAutorisation_parEtablissmeent_unique
-#        - addUniqueConstraint:
-#            schemaName: public
-#            tableName: texte
-#            columnNames: date_doc, etablissement_id
-#            constraintName: texte_dateDoc_parEtablissmeent_unique
+  - changeSet:
+      id: 1601908209756-05
+      author: deroffal
+      changes:
+        - addUniqueConstraint:
+            schemaName: public
+            tableName: texte
+            columnNames: url_doc, etablissement_id
+            constraintName: texte_urlDoc_parEtablissmeent_unique
