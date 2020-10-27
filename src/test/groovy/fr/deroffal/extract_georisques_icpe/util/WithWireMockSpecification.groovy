@@ -5,8 +5,6 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.cloud.contract.wiremock.WireMockSpring
 import spock.lang.Shared
 
-import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT
-
 ////https://cloud.spring.io/spring-cloud-contract/reference/html/project-features.html#features-wiremock
 @SpringBootTest("app.rest.baseUrl=http://localhost:6443")
 trait WithWireMockSpecification {
@@ -20,11 +18,9 @@ trait WithWireMockSpecification {
         wiremock.start()
     }
 
-    /**
-     *  TODO The registered WireMock server is reset after each test class, however, if you need to reset it after each test method, just set the wiremock.reset-mappings-after-each-test property to true.
-     */
     void cleanup() {
-        wiremock.resetAll()
+        //The registered WireMock server is reset after each test class, however, if you need to reset it after each test method, just set the wiremock.reset-mappings-after-each-test property to true.
+//        wiremock.resetAll()
     }
 
     void cleanupSpec() {

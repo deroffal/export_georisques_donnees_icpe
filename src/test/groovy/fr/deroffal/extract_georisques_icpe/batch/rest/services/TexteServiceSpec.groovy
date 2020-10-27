@@ -1,10 +1,14 @@
 package fr.deroffal.extract_georisques_icpe.batch.rest.services
 
-import fr.deroffal.extract_georisques_icpe.util.WithWireMockSpecification
 import fr.deroffal.extract_georisques_icpe.batch.rest.beans.TexteDto
+import fr.deroffal.extract_georisques_icpe.util.WithWireMockSpecification
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
 import spock.lang.Specification
 
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT
+
+@SpringBootTest(webEnvironment = RANDOM_PORT, properties = ["app.rest.baseUrl=http://localhost:6443"])
 class TexteServiceSpec extends Specification implements WithWireMockSpecification {
 
     @Autowired
