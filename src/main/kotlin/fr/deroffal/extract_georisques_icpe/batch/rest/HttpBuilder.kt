@@ -7,7 +7,7 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
 @Service
-class HttpBuilder(val restProperties: RestProperties) {
+class HttpBuilder(val restConfig: RestConfig) {
 
     private val httpClient = HttpClient.newBuilder().build()
 
@@ -18,7 +18,7 @@ class HttpBuilder(val restProperties: RestProperties) {
     private val bodyHandler = HttpResponse.BodyHandlers.ofString()
 
     fun getAsString(uri: String): String {
-        val httpRequest = getRequestBuilder.uri(URI.create("${restProperties.getBaseUrl()}$uri")).build()
+        val httpRequest = getRequestBuilder.uri(URI.create("${restConfig.getBaseUrl()}$uri")).build()
         return httpClient.send(httpRequest, bodyHandler).body()
     }
 }

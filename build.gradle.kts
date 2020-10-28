@@ -97,4 +97,5 @@ tasks.test {
         exceptionFormat = FULL
     }
     ignoreFailures = System.getProperties().getProperty("test.ignoreFailures")?.toBoolean() ?: false
+    systemProperty("spring.profiles.active", "test")
 }
