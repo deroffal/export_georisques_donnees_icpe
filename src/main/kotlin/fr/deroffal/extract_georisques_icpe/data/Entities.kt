@@ -1,6 +1,7 @@
 package fr.deroffal.extract_georisques_icpe.data
 
 import fr.deroffal.extract_georisques_icpe.batch.rest.beans.EtatActivite
+import java.time.Instant
 import java.time.LocalDate
 import javax.persistence.*
 
@@ -9,6 +10,7 @@ data class Etablissement(
     var idInst: String,
     var nom: String,
     var codeSiret: Long?,
+    var dateSynchronisation: Instant,
     @OneToOne(mappedBy = "etablissement") val localisation: Localisation,
     @OneToMany(mappedBy = "etablissement") val situations: List<Situation>,
     @OneToMany(mappedBy = "etablissement") val textes: List<Texte>
@@ -28,7 +30,8 @@ data class Localisation(
     var adresse2: String?,
     var codeInsee: String?,
     var x: Long?,
-    var y: Long?
+    var y: Long?,
+    var dateSynchronisation: Instant
 ) {
     @Id
     @GeneratedValue
@@ -43,7 +46,8 @@ data class Texte(
     var dateDoc: LocalDate?,
     var typeDoc: String?,
     var descriptionDoc: String?,
-    var urlDoc: String?
+    var urlDoc: String?,
+    var dateSynchronisation: Instant
 ) {
 
     @Id
@@ -66,7 +70,8 @@ data class Situation(
     var activiteNomenclature: String?,
     var familleNomenclature: String?,
     var volume: String?,
-    var unite: String?
+    var unite: String?,
+    var dateSynchronisation: Instant
 ) {
     @Id
     @GeneratedValue

@@ -3,7 +3,9 @@ package fr.deroffal.extract_georisques_icpe.batch.rest.beans
 import fr.deroffal.extract_georisques_icpe.batch.rest.beans.EtatActivite.EN_CONSTRUCTION
 import fr.deroffal.extract_georisques_icpe.batch.rest.beans.EtatActivite.EN_FONCTIONNEMENT
 import fr.deroffal.extract_georisques_icpe.data.Localisation
+import java.time.Instant
 import java.time.LocalDate
+import java.util.*
 
 //https://www.georisques.gouv.fr/webappReport/ws/installations/etablissement/0063-03511/situation
 data class SituationDto(
@@ -19,6 +21,9 @@ data class SituationDto(
     val volumeInst: String?,
     val unite: String?
 ) {
+
+    lateinit var dateSynchronisation: Instant
+
     fun aAfficher() =
         etatActivite in listOf(EN_CONSTRUCTION, EN_FONCTIONNEMENT).map { it.code }
 }
@@ -58,7 +63,7 @@ data class EtablissementDto(
     val pied: String?,
     val statutInst: String?
 ) {
-    fun toLocalisation() = Localisation(
+    fun toLocalisation(dateSynchronisation: Date) = Localisation(
         region = regionInst,
         departement = departementInst,
         commune = communeInst,
@@ -67,11 +72,15 @@ data class EtablissementDto(
         codePostal = codePostal,
         codeInsee = codeInsee,
         x = x,
-        y = y
+        y = y,
+        dateSynchronisation = dateSynchronisation.toInstant()
     )
 }
 
 
 data class TexteDto(val dateDoc: LocalDate?, val typeDoc: String?, val descriptionDoc: String?, val urlDoc: String?) {
+
+    lateinit var dateSynchronisation: Instant
+
     fun isNotEmpty() = listOfNotNull(dateDoc, typeDoc, descriptionDoc, urlDoc).isNotEmpty()
 }

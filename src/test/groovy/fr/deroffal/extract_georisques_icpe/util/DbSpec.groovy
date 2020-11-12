@@ -1,7 +1,7 @@
 package fr.deroffal.extract_georisques_icpe.util
 
+import fr.deroffal.extract_georisques_icpe.util.valuecomparer.DateSynchronisationValueComparer
 import org.dbunit.Assertion
-import org.dbunit.assertion.comparer.value.ValueComparer
 import org.dbunit.assertion.comparer.value.ValueComparers
 import org.dbunit.database.DatabaseDataSourceConnection
 import org.dbunit.dataset.ITable
@@ -27,7 +27,6 @@ trait DbSpec {
 
     private static final Map<String, List<String>> ADDITIONNAL_FILTERED_COLUMNS_NAMES_BY_TABLE_NAME = [:]
     private static final List<String> FILTERED_COLUMNS_NAMES = []
-    private static final Map<String, Map<String, ValueComparer>> CUSTOM_VALUE_COMPARER_BY_TABLE_NAME = [:]
 
     @Autowired
     DataSource dataSource
@@ -64,7 +63,7 @@ trait DbSpec {
                     sortedExpectedTable,
                     sortedActualTable,
                     ValueComparers.isActualEqualToExpected,
-                    CUSTOM_VALUE_COMPARER_BY_TABLE_NAME.getOrDefault(tableName, [:])
+                    DateSynchronisationValueComparer.asMap()
             )
         }
 
