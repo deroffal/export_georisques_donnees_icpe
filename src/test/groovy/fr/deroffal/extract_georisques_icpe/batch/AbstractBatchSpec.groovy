@@ -28,6 +28,10 @@ abstract class AbstractBatchSpec extends Specification implements DbSpec {
     @Autowired
     DateService dateService
 
+    void setup(){
+        injectData()
+    }
+
     void cleanup() {
         verifyDb()
     }

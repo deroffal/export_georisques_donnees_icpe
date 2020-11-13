@@ -1,6 +1,7 @@
 package fr.deroffal.extract_georisques_icpe.util
 
 import fr.deroffal.extract_georisques_icpe.util.valuecomparer.DateSynchronisationValueComparer
+import groovy.sql.Sql
 import org.dbunit.Assertion
 import org.dbunit.assertion.comparer.value.ValueComparers
 import org.dbunit.database.DatabaseDataSourceConnection
@@ -30,6 +31,17 @@ trait DbSpec {
 
     @Autowired
     DataSource dataSource
+
+    void injectData() {
+        [
+                'dbunit/cleanData.sql',
+                "dbunit$separator${this.class.name.replace(".", separator)}-populate.sql",
+                "dbunit$separator${this.class.package.name.replace(".", separator)}$separator${specificationContext.currentIteration.name}-populate.sql",
+        ].collect { new ClassPathResource(it) }
+                .findAll { it.exists() }
+                .each { executeSql(it) }
+    }
+
 
     void verifyDb() {
         ClassPathResource ficherAComparer = new ClassPathResource("dbunit${separator}${this.class.package.name.replace(".", separator)}$separator${specificationContext.currentIteration.name}-expected.xml")
@@ -68,6 +80,21 @@ trait DbSpec {
         }
 
         connection?.close()
+    }
+
+    void executeSql(ClassPathResource resource) {
+        resource.file.withInputStream { is ->
+            new Sql(dataSource).withCloseable { sql ->
+                sql.cacheConnection {
+                    is.readLines('UTF-8')
+                            .findAll { !(it.trim().startsWith("--")) }
+                            .flatten().join(" ").split(";")
+                            .each {
+                                sql.execute(it)
+                            }
+                }
+            }
+        }
     }
 
 }
