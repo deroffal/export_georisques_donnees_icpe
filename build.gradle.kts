@@ -37,12 +37,12 @@ dependencies {
     runtimeOnly("org.postgresql:postgresql")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
-    implementation(enforcedPlatform("com.fasterxml.jackson:jackson-bom:2.11.3"))
-    implementation("com.fasterxml.jackson.core:jackson-databind")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("com.fasterxml.jackson.module:jackson-module-parameter-names")
-    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jdk8")
-    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
+//    implementation(enforcedPlatform("com.fasterxml.jackson:jackson-bom:2.11.3"))
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.11.3")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.11.3")
+    implementation("com.fasterxml.jackson.module:jackson-module-parameter-names:2.11.3")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.11.3")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.11.3")
 
     kapt("org.springframework.boot:spring-boot-configuration-processor")
 
@@ -104,7 +104,7 @@ publishing {
         create<MavenPublication>("maven") {
             groupId = "fr.deroffal"
             artifactId = "extract_georisques_icpe"
-//            version = "1.1"
+            version = "1.1"
 
             from(components["java"])
 
