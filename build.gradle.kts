@@ -5,6 +5,7 @@ plugins {
     id("org.springframework.boot") version "2.3.2.RELEASE"
     id("io.spring.dependency-management") version "1.0.9.RELEASE"
     id("groovy")
+    id("maven-publish")
     kotlin("jvm") version "1.3.72"
     kotlin("plugin.spring") version "1.3.72"
     kotlin("plugin.jpa") version "1.3.72"
@@ -12,8 +13,8 @@ plugins {
     kotlin("kapt") version "1.3.72"
 }
 
-group = "fr.deroffal"
-version = "0.2-SNAPSHOT"
+group = project.group
+version = project.version
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 configurations {
@@ -97,3 +98,27 @@ tasks.test {
     ignoreFailures = System.getProperties().getProperty("test.ignoreFailures")?.toBoolean() ?: false
     systemProperty("spring.profiles.active", "test")
 }
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+//            groupId = "org.gradle.sample"
+//            artifactId = "library"
+//            version = "1.1"
+
+            from(components["java"])
+        }
+    }
+
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/deroffal/extract_georisques_icpe")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+}
+
