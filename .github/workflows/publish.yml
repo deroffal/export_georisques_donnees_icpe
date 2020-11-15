@@ -42,11 +42,4 @@ jobs:
         env:
           USERNAME: ${{ github.actor }}
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          NEW_VERSION=$(echo "${GITHUB_REF}" | cut -d "/" -f3)
-          echo "New version: ${NEW_VERSION}"
-          echo "Github username: ${GITHUB_ACTOR}"
-          ./gradlew -Pversion=${NEW_VERSION} publish
-
-      - name: Log pom.xml output
-        run: less pom.xml
+        run:  ./gradlew publish
