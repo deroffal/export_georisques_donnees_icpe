@@ -102,11 +102,10 @@ tasks.test {
 publishing {
     publications {
         create<MavenPublication>("maven") {
-            groupId = "fr.deroffal"
-            artifactId = "extract_georisques_icpe"
-            version = "1.1"
-
             from(components["java"])
+
+            artifactId = "extract_georisques_icpe"
+
 
             pom {
                 name.set("extract_georisques_icpe")
