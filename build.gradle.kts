@@ -14,7 +14,7 @@ plugins {
 }
 
 group = project.group
-version = project.version
+//version = project.version
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 configurations {
