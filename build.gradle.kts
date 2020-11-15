@@ -102,11 +102,31 @@ tasks.test {
 publishing {
     publications {
         create<MavenPublication>("maven") {
-//            groupId = "org.gradle.sample"
-//            artifactId = "library"
+            groupId = "fr.deroffal"
+            artifactId = "extract_georisques_icpe"
 //            version = "1.1"
 
             from(components["java"])
+
+            pom {
+                name.set("extract_georisques_icpe")
+                description.set("Export de données ICPE depuis georisques.gouv.fr ")
+                url.set("https://github.com/deroffal/extract_georisques_icpe")
+                licenses {
+                    license {
+                        name.set("MIT License")
+                        url.set("https://github.com/deroffal/extract_georisques_icpe/blob/master/LICENSE")
+                    }
+                }
+                developers {
+                    developer {
+                        id.set("deroffal")
+                    }
+                }
+                scm {
+                    url.set("https://github.com/deroffal/extract_georisques_icpe")
+                }
+            }
         }
     }
 
