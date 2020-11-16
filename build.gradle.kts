@@ -5,12 +5,13 @@ plugins {
     id("org.springframework.boot") version "2.3.2.RELEASE"
     id("io.spring.dependency-management") version "1.0.9.RELEASE"
     id("groovy")
-    id("maven-publish")
     kotlin("jvm") version "1.3.72"
     kotlin("plugin.spring") version "1.3.72"
     kotlin("plugin.jpa") version "1.3.72"
     kotlin("plugin.allopen") version "1.3.72"
     kotlin("kapt") version "1.3.72"
+    id("maven-publish")
+    id("net.researchgate.release") version "2.8.1"
 }
 
 group = project.group
@@ -111,10 +112,15 @@ tasks.jar {
     }
 }
 
+realese {
+    requireBranch = "release"
+}
+
 configurations {
     listOf(apiElements, runtimeElements).forEach {
-        it.get().outgoing.artifacts.removeIf { it.buildDependencies.getDependencies(null).contains(tasks.jar) }
-        it.get().outgoing.artifact(tasks.bootJar)
+        val configuration = it.get()
+        configuration.outgoing.artifacts.removeIf { a -> a.buildDependencies.getDependencies(null).contains(tasks.jar) }
+        configuration.outgoing.artifact(tasks.bootJar)
     }
 }
 
