@@ -131,8 +131,8 @@ publishing {
         }
 
         println("GITHUB_ACTOR : ${System.getenv("GITHUB_ACTOR")}")
-        println("GITHUB_TOKEN : ${System.getenv("GITHUB_TOKEN")}")
-        println("GITHUB_TOKEN length : ${System.getenv("GITHUB_TOKEN")?.length ?: "vide"}")
+        println("GITHUB_TOKEN : ${System.getenv("TOKEN")}")
+        println("GITHUB_TOKEN length : ${System.getenv("TOKEN")?.length ?: "vide"}")
 
         repositories {
             maven {
@@ -140,7 +140,7 @@ publishing {
                 url = uri("https://maven.pkg.github.com/deroffal/extract_georisques_icpe")
                 credentials {
                     username = System.getenv("GITHUB_ACTOR")
-                    password = System.getenv("GITHUB_TOKEN")
+                    password = System.getenv("TOKEN")
                 }
             }
         }
