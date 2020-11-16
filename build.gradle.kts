@@ -130,10 +130,6 @@ publishing {
             }
         }
 
-        println("GITHUB_ACTOR : ${System.getenv("GITHUB_ACTOR")}")
-        println("GITHUB_TOKEN : ${System.getenv("TOKEN")}")
-        println("GITHUB_TOKEN length : ${System.getenv("TOKEN")?.length ?: "vide"}")
-
         repositories {
             maven {
                 name = "GitHubPackages"
@@ -146,4 +142,3 @@ publishing {
         }
     }
 }
-
