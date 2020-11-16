@@ -6,6 +6,7 @@ plugins {
     id("io.spring.dependency-management") version "1.0.9.RELEASE"
     id("groovy")
     id("maven-publish")
+    java
     kotlin("jvm") version "1.3.72"
     kotlin("plugin.spring") version "1.3.72"
     kotlin("plugin.jpa") version "1.3.72"
@@ -99,12 +100,50 @@ tasks.test {
     systemProperty("spring.profiles.active", "test")
 }
 
+
+
+tasks.jar {
+    manifest {
+        attributes(
+            mapOf(
+                "Implementation-Title" to project.name,
+                "Implementation-Version" to project.version
+            )
+        )
+    }
+}
+
+java {
+    withSourcesJar()
+}
+
+
+
+//configurations {
+//    listOf(apiElements,runtimeElements).forEach{
+//        it.outgoing.artifacts.removeIf { it.buildDependencies.getDependencies(null).contains(jar) }
+//        it.outgoing.artifact(bootJar)
+//    }
+////    [apiElements, runtimeElements].each {
+////        it.outgoing.artifacts.removeIf { it.buildDependencies.getDependencies(null).contains(jar) }
+////        it.outgoing.artifact(bootJar)
+////    }
+//}
+configurations {
+    listOf(apiElements, runtimeElements).forEach {
+        it.get().outgoing.artifacts.removeIf { it.buildDependencies.getDependencies(null).contains(tasks.jar) }
+        it.get().outgoing.artifact(tasks.bootJar)
+    }
+}
+
+
 //https://github.com/actions/setup-java#publishing-using-gradle
 //https://github.com/deroffal/extract_georisques_icpe/new/master?filename=.github%2Fworkflows%2Fgradle-publish.yml&workflow_template=gradle-publish
 publishing {
     publications {
-        create<MavenPublication>("maven") {
-            from(components["java"])
+        create<MavenPublication>("bootJava") {
+            artifact(tasks.getByName("bootJar"))
+//            from(components["java"])
 
             artifactId = "extract_georisques_icpe"
 
