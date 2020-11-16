@@ -112,8 +112,26 @@ tasks.jar {
     }
 }
 
-realese {
-    requireBranch = "release"
+//release {
+//
+//    failOnCommitNeeded = true
+//
+//    git {
+//        requireBranch = "release"
+//    }
+//}
+
+release {
+//    scmAdapters = listOf(net.researchgate.release.GitAdapter)
+
+//    git {
+//        requireBranch = 'master'
+//        pushToRemote = 'origin'
+//        pushToBranchPrefix = ''
+//        commitVersionFileOnly = false
+//        signTag = false
+//    }
+
 }
 
 configurations {
