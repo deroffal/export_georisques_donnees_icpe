@@ -99,6 +99,8 @@ tasks.test {
     systemProperty("spring.profiles.active", "test")
 }
 
+//https://github.com/actions/setup-java#publishing-using-gradle
+//https://github.com/deroffal/extract_georisques_icpe/new/master?filename=.github%2Fworkflows%2Fgradle-publish.yml&workflow_template=gradle-publish
 publishing {
     publications {
         create<MavenPublication>("maven") {
@@ -127,6 +129,10 @@ publishing {
                 }
             }
         }
+
+        println("GITHUB_ACTOR : ${System.getenv("GITHUB_ACTOR")}")
+        println("GITHUB_TOKEN : ${System.getenv("GITHUB_TOKEN")}")
+        println("GITHUB_TOKEN length : ${System.getenv("GITHUB_TOKEN")?.length ?: "vide"}")
 
         repositories {
             maven {
