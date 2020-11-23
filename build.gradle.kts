@@ -1,3 +1,7 @@
+import net.researchgate.release.BaseScmAdapter
+import net.researchgate.release.GitAdapter
+import net.researchgate.release.GitAdapter.GitConfig
+import net.researchgate.release.ReleaseExtension
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -112,32 +116,21 @@ tasks.jar {
     }
 }
 
-//release {
-//
-//    failOnCommitNeeded = true
-//
-//    git {
-//        requireBranch = "release"
-//    }
-//}
-
 release {
-//    scmAdapters = listOf(net.researchgate.release.GitAdapter)
+    scmAdapters = mutableListOf<Class<out BaseScmAdapter>>(GitAdapter::class.java)
 
-//    git {
-//        requireBranch = 'master'
-//        pushToRemote = 'origin'
-//        pushToBranchPrefix = ''
-//        commitVersionFileOnly = false
-//        signTag = false
-//    }
+    //https://github.com/researchgate/gradle-release/issues/281
+    fun ReleaseExtension.git(configure: GitConfig.() -> Unit) = (getProperty("git") as GitConfig).configure()
 
+    git {
+        requireBranch = "" //n'importe quelle branche
+    }
 }
 
 configurations {
     listOf(apiElements, runtimeElements).forEach {
         val configuration = it.get()
-        configuration.outgoing.artifacts.removeIf { a -> a.buildDependencies.getDependencies(null).contains(tasks.jar) }
+        configuration.outgoing.artifacts.removeIf { a -> a.buildDependencies.getDependencies(null).contains(tasks.jar.get()) }
         configuration.outgoing.artifact(tasks.bootJar)
     }
 }
