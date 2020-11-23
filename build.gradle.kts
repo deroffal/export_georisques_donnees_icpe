@@ -14,7 +14,7 @@ plugins {
 }
 
 group = project.group
-//version = project.version
+
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 configurations {
@@ -37,7 +37,6 @@ dependencies {
     runtimeOnly("org.postgresql:postgresql")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
-//    implementation(enforcedPlatform("com.fasterxml.jackson:jackson-bom:2.11.3"))
     implementation("com.fasterxml.jackson.core:jackson-databind:2.11.3")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.11.3")
     implementation("com.fasterxml.jackson.module:jackson-module-parameter-names:2.11.3")
@@ -151,7 +150,7 @@ publishing {
         repositories {
             maven {
                 name = "GitHubPackages"
-                url = uri("https://maven.pkg.github.com/deroffal/extract_georisques_icpe")
+                url = uri("https://maven.pkg.github.com/${System.getenv("GITHUB_REPO_URL")}")
                 credentials {
                     username = System.getenv("GITHUB_ACTOR")
                     password = System.getenv("TOKEN")
