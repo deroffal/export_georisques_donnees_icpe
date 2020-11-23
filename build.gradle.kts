@@ -127,6 +127,12 @@ release {
     }
 }
 
+tasks.register("printVersion") {
+    doLast {
+        println(project.findProperty("version"))
+    }
+}
+
 configurations {
     listOf(apiElements, runtimeElements).forEach {
         val configuration = it.get()

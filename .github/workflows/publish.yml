@@ -1,8 +1,8 @@
 name: Publishing
 
 on:
-  push:
-    branches: [ publish ]
+  release:
+    types: [created]
 
 jobs:
   build:
@@ -27,8 +27,18 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
 
-      - name: Build with Gradle
+      - name: Build
         run: ./gradlew clean build
+
+      - name: Release
+        run: |
+          CURRENT_VERSION=$(./gradlew -q printVersion)
+          MAJOR_VERSION=$(echo "$CURRENT_VERSION" | cut -d "." -f1)
+          CURRENT_MINOR_VERSION=$(echo "$CURRENT_VERSION" | cut -d "." -f2 | cut -d "-" -f1)
+          ./gradlew release \
+          -Prelease.useAutomaticVersion=true \
+          -Prelease.releaseVersion="$(echo "$CURRENT_VERSION" | cut -d "-" -f1)" \
+          -Prelease.newVersion="$MAJOR_VERSION.$((CURRENT_MINOR_VERSION+1))-SNAPSHOT"
 
       - name: Publish to GitHub Packages
         env:
