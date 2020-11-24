@@ -123,6 +123,7 @@ release {
     fun ReleaseExtension.git(configure: GitConfig.() -> Unit) = (getProperty("git") as GitConfig).configure()
 
     git {
+        failOnCommitNeeded = false //ignorer les fichiers créés pour release/publish (ex : settings.xml)
         requireBranch = "" //n'importe quelle branche
     }
 }
