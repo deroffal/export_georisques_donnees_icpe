@@ -1,8 +1,10 @@
 name: Publishing
 
 on:
-  release:
-    types: [created, edited, prereleased]
+  #  release:
+  #    types: [prereleased]
+  push:
+    branches: [ release ]
 jobs:
   build:
 
@@ -30,9 +32,15 @@ jobs:
         run: ./gradlew clean build
 
       - name: Prepare release
+        env:
+          USERNAME: ${{ github.actor }}
+          ACTOR_EMAIL: ${{ secrets.ACTOR_EMAIL }}
+          GITHUB_REF: ${{ github.GITHUB_REF }}
         run: |
-          git config user.name ${{ github.actor }}
-          git config user.email ${{secrets.ACTOR_EMAIL}}
+          git config user.name $USERNAME
+          git config user.email $ACTOR_EMAIL
+          echo "Checkout de la branche release"
+          git checkout release
 
       - name: Release
         run: |
