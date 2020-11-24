@@ -29,6 +29,11 @@ jobs:
       - name: Build
         run: ./gradlew clean build
 
+      - name: Prepare release
+        run: |
+          git config user.name ${{ github.actor }}
+          git config user.email ${{secrets.ACTOR_EMAIL}}
+
       - name: Release
         run: |
           CURRENT_VERSION=$(./gradlew -q printVersion)
