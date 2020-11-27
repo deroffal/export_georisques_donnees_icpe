@@ -57,4 +57,6 @@ jobs:
           USERNAME: ${{ github.actor }}
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPO_URL: ${{ github.repository }}
-        run: ./gradlew publish
+        run: |
+          git checkout $(git describe --abbrev=0 --tags)
+          ./gradlew publish
