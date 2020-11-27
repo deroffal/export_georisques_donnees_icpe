@@ -20,6 +20,7 @@ jobs:
           java-version: 11
           server-id: github
           settings-path: ${{ github.workspace }}
+          fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
 
       - name: Cache Gradle packages
         uses: actions/cache@v2
@@ -39,8 +40,9 @@ jobs:
         run: |
           git config user.name $USERNAME
           git config user.email $ACTOR_EMAIL
-          echo "Checkout de la branche release"
-          git checkout release
+
+#      echo "Checkout de la branche release"
+#      git checkout release
 
       - name: Release
         run: |
