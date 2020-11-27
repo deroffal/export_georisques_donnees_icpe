@@ -1,8 +1,8 @@
 name: Release
 
 on:
-  push:
-    branches: [ publish ]
+  release:
+    types: [ released ]
 
 jobs:
   build:
@@ -27,8 +27,27 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
 
-      - name: Build with Gradle
-        run: ./gradlew clean build
+      - name: Build
+        run: ./gradlew build
+
+      - name: Release
+        env:
+          USERNAME: ${{ github.actor }}
+          ACTOR_EMAIL: ${{ secrets.ACTOR_EMAIL }}
+          GITHUB_REF: ${{ github.GITHUB_REF }}
+        run: |
+          echo "Configuration git..."
+          git config user.name $USERNAME
+          git config user.email $ACTOR_EMAIL
+          git checkout master
+          echo "Release..."
+          CURRENT_VERSION=$(./gradlew -q printVersion)
+          MAJOR_VERSION=$(echo "$CURRENT_VERSION" | cut -d "." -f1)
+          CURRENT_MINOR_VERSION=$(echo "$CURRENT_VERSION" | cut -d "." -f2 | cut -d "-" -f1)
+          ./gradlew release \
+          -Prelease.useAutomaticVersion=true \
+          -Prelease.releaseVersion="$(echo "$CURRENT_VERSION" | cut -d "-" -f1)" \
+          -Prelease.newVersion="$MAJOR_VERSION.$((CURRENT_MINOR_VERSION+1))-SNAPSHOT"
 
       - name: Publish to GitHub Packages
         env:

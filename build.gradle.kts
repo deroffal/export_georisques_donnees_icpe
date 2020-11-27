@@ -1,3 +1,7 @@
+import net.researchgate.release.BaseScmAdapter
+import net.researchgate.release.GitAdapter
+import net.researchgate.release.GitAdapter.GitConfig
+import net.researchgate.release.ReleaseExtension
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -6,6 +10,7 @@ plugins {
     id("io.spring.dependency-management") version "1.0.9.RELEASE"
     id("groovy")
     id("maven-publish")
+    id("net.researchgate.release") version "2.8.1"
     kotlin("jvm") version "1.3.72"
     kotlin("plugin.spring") version "1.3.72"
     kotlin("plugin.jpa") version "1.3.72"
@@ -108,10 +113,29 @@ tasks.jar {
     }
 }
 
+release {
+    scmAdapters = mutableListOf<Class<out BaseScmAdapter>>(GitAdapter::class.java)
+
+    //https://github.com/researchgate/gradle-release/issues/281
+    fun ReleaseExtension.git(configure: GitConfig.() -> Unit) = (getProperty("git") as GitConfig).configure()
+
+    git {
+        failOnCommitNeeded = false //ignorer les fichiers créés pour release/publish (ex : settings.xml)
+        requireBranch = "" //n'importe quelle branche
+    }
+}
+
+tasks.register("printVersion") {
+    doLast {
+        println(project.findProperty("version"))
+    }
+}
+
 configurations {
     listOf(apiElements, runtimeElements).forEach {
-        it.get().outgoing.artifacts.removeIf { it.buildDependencies.getDependencies(null).contains(tasks.jar) }
-        it.get().outgoing.artifact(tasks.bootJar)
+        val configuration = it.get()
+        configuration.outgoing.artifacts.removeIf { a -> a.buildDependencies.getDependencies(null).contains(tasks.jar.get()) }
+        configuration.outgoing.artifact(tasks.bootJar)
     }
 }
 
