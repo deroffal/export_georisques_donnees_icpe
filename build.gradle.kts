@@ -103,8 +103,6 @@ tasks.test {
     systemProperty("spring.profiles.active", "test")
 }
 
-
-
 tasks.jar {
     manifest {
         attributes(
@@ -114,6 +112,10 @@ tasks.jar {
             )
         )
     }
+}
+
+tasks.bootJar {
+    archiveFileName.set("extract_georisques_icpe.jar")
 }
 
 release {
