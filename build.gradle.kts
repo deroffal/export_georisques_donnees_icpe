@@ -115,7 +115,7 @@ tasks.jar {
 }
 
 tasks.bootJar {
-    archiveFileName.set("extract_georisques_icpe.jar")
+    archiveFileName.set("${archiveBaseName.get()}.${archiveExtension.get()}")
 }
 
 release {
