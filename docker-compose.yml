@@ -1,6 +1,6 @@
-version: "3.3"
+version: "3.9"
 services:
-  db:
+  postgres:
     image: "postgres:12.4"
     container_name: "exportgeorisquesdb"
     environment:
@@ -8,3 +8,18 @@ services:
       POSTGRES_DB: exportgeorisquesdb
     ports:
       - "54320:5432"
+  pgadmin:
+    image: "dpage/pgadmin4"
+    container_name: "pgadmin"
+    depends_on:
+      - postgres
+    environment:
+      PGADMIN_DEFAULT_EMAIL: e@mail.fr
+      PGADMIN_DEFAULT_PASSWORD: pwd
+    ports:
+      - "5555:80"
+      
+#https://docs.docker.com/compose/networking/
+networks:
+  default:
+    name: exportgeorisques_network
