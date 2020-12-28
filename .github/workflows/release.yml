@@ -1,8 +1,9 @@
-name: Publishing
+name: Release & Publish
 
 on:
-  release:
-    types: [prereleased, released]
+  push:
+    branches:
+      - main
 jobs:
   build:
 
