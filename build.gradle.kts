@@ -1,3 +1,7 @@
+import net.researchgate.release.BaseScmAdapter
+import net.researchgate.release.GitAdapter
+import net.researchgate.release.GitAdapter.GitConfig
+import net.researchgate.release.ReleaseExtension
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -10,10 +14,12 @@ plugins {
     kotlin("plugin.jpa") version "1.3.72"
     kotlin("plugin.allopen") version "1.3.72"
     kotlin("kapt") version "1.3.72"
+    id("maven-publish")
+    id("net.researchgate.release") version "2.8.1"
 }
 
-group = "fr.deroffal"
-version = "0.2-SNAPSHOT"
+group = project.group
+
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 configurations {
@@ -36,12 +42,11 @@ dependencies {
     runtimeOnly("org.postgresql:postgresql")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
-    implementation(enforcedPlatform("com.fasterxml.jackson:jackson-bom:2.11.3"))
-    implementation("com.fasterxml.jackson.core:jackson-databind")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("com.fasterxml.jackson.module:jackson-module-parameter-names")
-    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jdk8")
-    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.11.3")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.11.3")
+    implementation("com.fasterxml.jackson.module:jackson-module-parameter-names:2.11.3")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.11.3")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.11.3")
 
     kapt("org.springframework.boot:spring-boot-configuration-processor")
 
@@ -96,4 +101,87 @@ tasks.test {
     }
     ignoreFailures = System.getProperties().getProperty("test.ignoreFailures")?.toBoolean() ?: false
     systemProperty("spring.profiles.active", "test")
+}
+
+tasks.jar {
+    manifest {
+        attributes(
+            mapOf(
+                "Implementation-Title" to project.name,
+                "Implementation-Version" to project.version
+            )
+        )
+    }
+}
+
+tasks.bootJar {
+    archiveFileName.set("${archiveBaseName.get()}.${archiveExtension.get()}")
+}
+
+release {
+    scmAdapters = mutableListOf<Class<out BaseScmAdapter>>(GitAdapter::class.java)
+
+    //https://github.com/researchgate/gradle-release/issues/281
+    fun ReleaseExtension.git(configure: GitConfig.() -> Unit) = (getProperty("git") as GitConfig).configure()
+
+    git {
+        failOnCommitNeeded = false //ignorer les fichiers créés pour release/publish (ex : settings.xml)
+        requireBranch = "" //n'importe quelle branche
+    }
+}
+
+tasks.register("printVersion") {
+    doLast {
+        println(project.findProperty("version"))
+    }
+}
+
+configurations {
+    listOf(apiElements, runtimeElements).forEach {
+        val configuration = it.get()
+        configuration.outgoing.artifacts.removeIf { a -> a.buildDependencies.getDependencies(null).contains(tasks.jar.get()) }
+        configuration.outgoing.artifact(tasks.bootJar)
+    }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("bootJava") {
+            artifact(tasks.getByName("bootJar"))
+
+            artifactId = "extract_georisques_icpe"
+
+
+            pom {
+                name.set("extract_georisques_icpe")
+                description.set("Export de données ICPE depuis georisques.gouv.fr ")
+                url.set("https://github.com/deroffal/extract_georisques_icpe")
+                licenses {
+                    license {
+                        name.set("MIT License")
+                        url.set("https://github.com/deroffal/extract_georisques_icpe/blob/master/LICENSE")
+                    }
+                }
+                developers {
+                    developer {
+                        id.set("deroffal")
+                    }
+                }
+                scm {
+                    url.set("https://github.com/deroffal/extract_georisques_icpe")
+                }
+            }
+        }
+
+        repositories {
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/${System.getenv("GITHUB_REPO_URL")}")
+                credentials {
+                    username = System.getenv("GITHUB_ACTOR")
+                    password = System.getenv("TOKEN")
+                }
+            }
+        }
+    }
 }
