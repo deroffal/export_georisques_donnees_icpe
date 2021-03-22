@@ -6,14 +6,14 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "2.3.2.RELEASE"
+    id("org.springframework.boot") version "2.3.9.RELEASE"
     id("io.spring.dependency-management") version "1.0.9.RELEASE"
     id("groovy")
     kotlin("jvm") version "1.3.72"
-    kotlin("plugin.spring") version "1.3.72"
-    kotlin("plugin.jpa") version "1.3.72"
-    kotlin("plugin.allopen") version "1.3.72"
-    kotlin("kapt") version "1.3.72"
+    kotlin("plugin.spring") version "1.4.30"
+    kotlin("plugin.jpa") version "1.4.30"
+    kotlin("plugin.allopen") version "1.4.30"
+    kotlin("kapt") version "1.4.30"
     id("maven-publish")
     id("net.researchgate.release") version "2.8.1"
 }
@@ -64,9 +64,9 @@ dependencies {
     testImplementation("org.spockframework:spock-core:2.0-M3-groovy-2.5")
     testImplementation("org.spockframework:spock-spring:2.0-M3-groovy-2.5")
 
-    testImplementation("org.testcontainers:jdbc:1.14.3")
-    testImplementation("org.testcontainers:postgresql:1.14.3")
-    testImplementation("org.testcontainers:spock:1.14.3")
+    testImplementation("org.testcontainers:jdbc:1.15.2")
+    testImplementation("org.testcontainers:postgresql:1.15.2")
+    testImplementation("org.testcontainers:spock:1.15.2")
 
     testImplementation("org.springframework.cloud:spring-cloud-starter-contract-stub-runner:2.2.4.RELEASE")
 
