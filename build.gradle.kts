@@ -9,11 +9,11 @@ plugins {
     id("org.springframework.boot") version "2.3.9.RELEASE"
     id("io.spring.dependency-management") version "1.0.9.RELEASE"
     id("groovy")
-    kotlin("jvm") version "1.3.72"
-    kotlin("plugin.spring") version "1.4.30"
-    kotlin("plugin.jpa") version "1.4.30"
-    kotlin("plugin.allopen") version "1.4.30"
-    kotlin("kapt") version "1.4.30"
+    kotlin("jvm") version "1.4.31"
+    kotlin("plugin.spring") version "1.4.31"
+    kotlin("plugin.jpa") version "1.4.31"
+    kotlin("plugin.allopen") version "1.4.31"
+    kotlin("kapt") version "1.4.31"
     id("maven-publish")
     id("net.researchgate.release") version "2.8.1"
 }
@@ -54,6 +54,9 @@ dependencies {
     kapt("org.mapstruct:mapstruct-processor:1.4.0.CR1")
 
     implementation("org.liquibase:liquibase-core:4.0.0")
+
+    implementation("io.ktor:ktor-client-core:1.5.2")
+    implementation("io.ktor:ktor-client-cio:1.5.2")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")

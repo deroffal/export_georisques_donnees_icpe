@@ -14,6 +14,7 @@ import java.util.*
 
 @RestController
 class EtablissementController(
+    private val etablissementModelMapper: EtablissementModelMapper,
     private val etablissementRepository: EtablissementRepository,
     private val jobLauncher: JobLauncher,
     private val dateService: DateService,
@@ -22,9 +23,8 @@ class EtablissementController(
 
     @GetMapping("/etablissement/list")
     @ResponseStatus(OK)
-    fun etablissements(): MutableIterable<Etablissement> {
-        return etablissementRepository.findAll()
-    }
+    fun etablissements(): MutableIterable<EtablissementModel> =
+        etablissementModelMapper.toModel(etablissementRepository.findAll())
 
     @GetMapping("/etablissement/sync")
     @ResponseStatus(OK)
@@ -33,7 +33,8 @@ class EtablissementController(
         @RequestParam("exclureSeveso") exclureSeveso: Boolean?
     ) {
 
-        val parameters: MutableMap<String, JobParameter> = mutableMapOf("dateSynchronisation" to JobParameter(Date.from(dateService.now())))
+        val parameters: MutableMap<String, JobParameter> =
+            mutableMapOf("dateSynchronisation" to JobParameter(Date.from(dateService.now())))
         if (parametreGeographiqueExport != null) {
             parameters["parametreGeographiqueExport"] = JobParameter(parametreGeographiqueExport)
         }
