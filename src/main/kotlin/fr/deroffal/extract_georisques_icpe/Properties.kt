@@ -1,6 +1,6 @@
 package fr.deroffal.extract_georisques_icpe
 
-import fr.deroffal.extract_georisques_icpe.data.adapters.Database
+import fr.deroffal.extract_georisques_icpe.adapter.Database
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
 

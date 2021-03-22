@@ -1,4 +1,4 @@
-package fr.deroffal.extract_georisques_icpe.data
+package fr.deroffal.extract_georisques_icpe.etablissement
 
 import fr.deroffal.extract_georisques_icpe.batch.rest.beans.EtatActivite
 import java.time.Instant

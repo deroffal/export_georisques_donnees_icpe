@@ -2,7 +2,7 @@ package fr.deroffal.extract_georisques_icpe.batch.rest.beans
 
 import fr.deroffal.extract_georisques_icpe.batch.rest.beans.EtatActivite.EN_CONSTRUCTION
 import fr.deroffal.extract_georisques_icpe.batch.rest.beans.EtatActivite.EN_FONCTIONNEMENT
-import fr.deroffal.extract_georisques_icpe.data.Localisation
+import fr.deroffal.extract_georisques_icpe.etablissement.Localisation
 import java.time.Instant
 import java.time.LocalDate
 import java.util.*

@@ -6,8 +6,8 @@ import fr.deroffal.extract_georisques_icpe.batch.rest.services.EtablissementRest
 import fr.deroffal.extract_georisques_icpe.batch.rest.services.ParametreExport
 import fr.deroffal.extract_georisques_icpe.batch.rest.services.SituationService
 import fr.deroffal.extract_georisques_icpe.batch.rest.services.TexteService
-import fr.deroffal.extract_georisques_icpe.data.Etablissement
-import fr.deroffal.extract_georisques_icpe.service.EtablissementService
+import fr.deroffal.extract_georisques_icpe.etablissement.Etablissement
+import fr.deroffal.extract_georisques_icpe.etablissement.EtablissementService
 import org.slf4j.LoggerFactory
 import org.springframework.batch.core.StepContribution
 import org.springframework.batch.core.configuration.annotation.StepScope

@@ -1,4 +1,4 @@
-package fr.deroffal.extract_georisques_icpe.data
+package fr.deroffal.extract_georisques_icpe.etablissement
 
 import org.springframework.data.repository.CrudRepository
 import java.time.Instant

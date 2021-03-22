@@ -1,7 +1,7 @@
-package fr.deroffal.extract_georisques_icpe.service
+package fr.deroffal.extract_georisques_icpe.etablissement
 
-import fr.deroffal.extract_georisques_icpe.data.*
-import fr.deroffal.extract_georisques_icpe.data.adapters.RepositoryAdapterFactory
+import fr.deroffal.extract_georisques_icpe.adapter.RepositoryAdapterFactory
+import fr.deroffal.extract_georisques_icpe.etablissement.adapter.EtablissementRepositoryAdapter
 import org.springframework.stereotype.Service
 import java.time.Instant
 
@@ -14,7 +14,8 @@ class EtablissementService(
     private val localisationRepository: LocalisationRepository
 ) {
 
-    fun createOrUpdate(etablissement: Etablissement) = repositoryAdapterFactory.getRepositoryAdapter()
+    fun createOrUpdate(etablissement: Etablissement) = repositoryAdapterFactory
+        .getRepositoryAdapterByType(EtablissementRepositoryAdapter::class.java)
         .createOrUpdate(etablissement)
 
     fun deleteByDateSynchronisationNotEquals(dateSynchronisation: Instant) =

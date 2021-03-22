@@ -1,7 +1,7 @@
 package fr.deroffal.extract_georisques_icpe.batch.rest.beans
 
-import fr.deroffal.extract_georisques_icpe.data.Situation
-import fr.deroffal.extract_georisques_icpe.data.Texte
+import fr.deroffal.extract_georisques_icpe.etablissement.Situation
+import fr.deroffal.extract_georisques_icpe.etablissement.Texte
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
 import org.mapstruct.Mappings

@@ -4,10 +4,10 @@ import fr.deroffal.extract_georisques_icpe.batch.rest.beans.*
 import fr.deroffal.extract_georisques_icpe.batch.rest.services.EtablissementRestService
 import fr.deroffal.extract_georisques_icpe.batch.rest.services.SituationService
 import fr.deroffal.extract_georisques_icpe.batch.rest.services.TexteService
-import fr.deroffal.extract_georisques_icpe.data.Etablissement
-import fr.deroffal.extract_georisques_icpe.data.Localisation
-import fr.deroffal.extract_georisques_icpe.data.Situation
-import fr.deroffal.extract_georisques_icpe.data.Texte
+import fr.deroffal.extract_georisques_icpe.etablissement.Etablissement
+import fr.deroffal.extract_georisques_icpe.etablissement.Localisation
+import fr.deroffal.extract_georisques_icpe.etablissement.Situation
+import fr.deroffal.extract_georisques_icpe.etablissement.Texte
 import spock.lang.Specification
 
 import java.time.Instant

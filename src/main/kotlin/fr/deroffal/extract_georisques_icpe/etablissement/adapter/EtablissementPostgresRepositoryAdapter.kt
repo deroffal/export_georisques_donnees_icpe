@@ -1,20 +1,24 @@
-package fr.deroffal.extract_georisques_icpe.data.adapters
+package fr.deroffal.extract_georisques_icpe.etablissement.adapter
 
-import fr.deroffal.extract_georisques_icpe.data.Etablissement
-import fr.deroffal.extract_georisques_icpe.data.Localisation
-import fr.deroffal.extract_georisques_icpe.data.Situation
-import fr.deroffal.extract_georisques_icpe.data.Texte
+import fr.deroffal.extract_georisques_icpe.adapter.Database
+import fr.deroffal.extract_georisques_icpe.adapter.Database.POSTGRES
+import fr.deroffal.extract_georisques_icpe.etablissement.Etablissement
+import fr.deroffal.extract_georisques_icpe.etablissement.Localisation
+import fr.deroffal.extract_georisques_icpe.etablissement.Situation
+import fr.deroffal.extract_georisques_icpe.etablissement.Texte
 import org.springframework.jdbc.core.ArgumentPreparedStatementSetter
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 import java.sql.Timestamp
 
+
 @Component
-class PostgresRepositoryAdapter(
+class EtablissementPostgresRepositoryAdapter(
     private val jdbcTemplate: JdbcTemplate
-) : RepositoryAdapter {
-    override fun matchesDatabase(database: Database) = database == Database.POSTGRES
+) : EtablissementRepositoryAdapter {
+
+    override fun matchesDatabase(database: Database) = database == POSTGRES
 
     @Transactional
     override fun createOrUpdate(etablissement: Etablissement) {
@@ -42,7 +46,12 @@ on conflict (id_inst) do update
         date_synchronisation    = excluded.date_synchronisation
 returning id
         """.trimIndent(),
-        arrayOf(etablissement.idInst, etablissement.codeSiret, etablissement.nom, Timestamp.from(etablissement.dateSynchronisation)),
+        arrayOf(
+            etablissement.idInst,
+            etablissement.codeSiret,
+            etablissement.nom,
+            Timestamp.from(etablissement.dateSynchronisation)
+        ),
         Long::class.java
     )
 

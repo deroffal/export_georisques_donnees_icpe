@@ -1,7 +1,7 @@
 package fr.deroffal.extract_georisques_icpe.batch.importation
 
 import fr.deroffal.extract_georisques_icpe.batch.AbstractBatchSpec
-import fr.deroffal.extract_georisques_icpe.data.EtablissementRepository
+import fr.deroffal.extract_georisques_icpe.etablissement.EtablissementRepository
 import fr.deroffal.extract_georisques_icpe.util.WithWireMockSpecification
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -41,6 +41,6 @@ class BatchImportEtablissementSpec extends AbstractBatchSpec implements WithWire
     }
 
     private URI getBatchURI() {
-        return "$baseUrl/etablissement/launch".toURI()
+        return "$baseUrl/etablissement/sync".toURI()
     }
 }

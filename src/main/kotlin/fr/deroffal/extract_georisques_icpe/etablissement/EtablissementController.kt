@@ -1,7 +1,5 @@
-package fr.deroffal.extract_georisques_icpe.controller
+package fr.deroffal.extract_georisques_icpe.etablissement
 
-import fr.deroffal.extract_georisques_icpe.data.Etablissement
-import fr.deroffal.extract_georisques_icpe.data.EtablissementRepository
 import fr.deroffal.extract_georisques_icpe.service.DateService
 import org.springframework.batch.core.Job
 import org.springframework.batch.core.JobParameter
@@ -28,9 +26,9 @@ class EtablissementController(
         return etablissementRepository.findAll()
     }
 
-    @GetMapping("/etablissement/launch")
+    @GetMapping("/etablissement/sync")
     @ResponseStatus(OK)
-    fun launch(
+    fun sync(
         @RequestParam("parametreGeographiqueExport") parametreGeographiqueExport: String?,
         @RequestParam("exclureSeveso") exclureSeveso: Boolean?
     ) {

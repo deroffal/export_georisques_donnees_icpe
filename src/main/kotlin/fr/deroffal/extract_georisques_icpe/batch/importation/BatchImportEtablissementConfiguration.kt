@@ -1,6 +1,6 @@
 package fr.deroffal.extract_georisques_icpe.batch.importation
 
-import fr.deroffal.extract_georisques_icpe.data.Etablissement
+import fr.deroffal.extract_georisques_icpe.etablissement.Etablissement
 import org.springframework.batch.core.Job
 import org.springframework.batch.core.Step
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
